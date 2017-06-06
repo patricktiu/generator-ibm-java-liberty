@@ -22,14 +22,12 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-before() {
-  this.before = function() {
-    return helpers.run(path.join( __dirname, '../../generators/app'))
-      .withOptions({})
-      .withPrompts({})
-      .toPromise();
-  }
-}
+before(function() {
+  return helpers.run(path.join( __dirname, '../../generators/app'))
+    .withOptions({})
+    .withPrompts({})
+    .toPromise();
+});
 
 describe('Liberty generator : basic integration test', function () {
   it('should test that file.txt was produced', function () {

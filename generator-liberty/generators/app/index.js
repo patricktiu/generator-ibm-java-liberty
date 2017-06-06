@@ -38,6 +38,8 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    //write the template file file.txt into the current directory
+    this.fs.copy(this.templatePath('file.txt'), 'file.txt');
   }
 
   end() {
