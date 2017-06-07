@@ -3,12 +3,14 @@
   "version": "0.0.1",
   "description": "Liberty and Java EE code generation and modification",
   "license": "Apache-2.0",
+  "main": "generators/app/index.js",
   "files": [
     "generators"
   ],
   "dependencies": {
     "handlebars": "^4.0.0",
-    "yeoman-generator": "^1.0.0"
+    "yeoman-generator": "^1.0.0",
+    "extend": "^3.0.1"
   },
   "devDependencies": {
     "mocha": "^3.2.0",
