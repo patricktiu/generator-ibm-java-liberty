@@ -18,13 +18,18 @@ var Generator = require('yeoman-generator');
 var Handlebars = require('handlebars');
 var fspath = require('path');
 var fs = require('fs');
+var extend = require('extend');
 
 
 module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
-
+    extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
+    this.logger.writeToLog("Liberty Generator context", opts.context);
+    var ext = this.promptmgr.add(require('../prompts/liberty.js'));
+    ext.setContext(opts.context);
+    this.patterns.push('picnmix');
   }
 
   initializing() {
@@ -32,14 +37,15 @@ module.exports = class extends Generator {
 
 
   prompting() {
+    //do not add questions in here, use the promptmgr on the context if you need to get input from the user
   }
 
   configuring() {
+    this.configure(this);
   }
 
   writing() {
-    //write the template file file.txt into the current directory
-    this.fs.copy(this.templatePath('file.txt'), 'file.txt');
+    return this.defaultWriter(this);   //use the default writer supplied by the context.
   }
 
   end() {
