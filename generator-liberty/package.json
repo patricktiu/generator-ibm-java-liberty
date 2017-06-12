@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Liberty and Java EE code generation and modification",
   "license": "Apache-2.0",
-  "main": "generators/app/index.js",
+  "main": "index.js",
   "files": [
     "generators"
   ],
@@ -23,7 +23,7 @@
     "test": "mocha test/unit/*",
     "testint": "mocha test/integration/*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
-    "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/*",
+    "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/generator*",
     "istanbul": "./node_modules/istanbul/lib/cli.js",
     "prerelease": "npm test && npm run testint",
     "release": "standard-version"

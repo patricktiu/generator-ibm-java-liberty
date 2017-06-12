@@ -9,6 +9,7 @@
     "build"
   ],
   "composition" : [
+    "build",
     {{#each technologies}}
     "technologies/{{this}}",
     {{/each}}

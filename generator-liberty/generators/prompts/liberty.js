@@ -16,13 +16,12 @@
 
 'use strict'
 
-var logger = require("../lib/log");
-
 const PROMPT_ID = 'prompt:liberty';
 
 function Extension(config) {
   this.id = PROMPT_ID;
   this.config = config;
+  this.context = undefined;
 }
 
 Extension.prototype.getChoice = function() {
@@ -61,7 +60,31 @@ Extension.prototype.getQuestions = function() {
       name : 'Microservice Builder : develop and deliver microservices, hybrid and containerized apps',
       value : 'technologies/msbuilder',
       short : 'Microservice Builder'
-    }]
+    }]},{
+      when    : this.show.bind(this),
+      type    : 'list',
+      name    : 'buildType',
+      message : 'Select the build type for your project.\n',
+      choices : ['maven', 'gradle'],
+      default : 'maven'
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'appName',
+      message : 'Enter a name for your project',
+      default : 'LibertyProject'
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'groupId',
+      message : 'Enter a group id for your project',
+      default : 'liberty.projects'
+    }, {
+      when    : this.show.bind(this),
+      type    : 'input',
+      name    : 'artifactId',
+      message : 'Enter an artifact id for your project',
+      default : (answers) => {return answers.appName}
     }, {
     when : this.show.bind(this),
     type : 'checkbox',
@@ -83,8 +106,16 @@ Extension.prototype.getQuestions = function() {
   }];
 }
 
+Extension.prototype.setContext = function(ctx) {
+  this.context = ctx;
+}
+
 Extension.prototype.afterPrompt = function(answers, config) {
-  config.apply(answers);
+  if(this.context) {
+    this.context.conf.apply(answers);
+  } else {
+    config.apply(answers);
+  }
 }
 
 module.exports = exports = Extension;

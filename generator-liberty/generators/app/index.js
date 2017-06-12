@@ -25,12 +25,14 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
-    extend(this, this.options.context);   //inject the objects and functions directly into 'this' to make things easy
-    this.logger.writeToLog("Liberty Generator options", this.options);
+    extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
+    this.logger.writeToLog("Liberty Generator context", opts.context);
+    var ext = this.promptmgr.add(require('../prompts/liberty.js'));
+    ext.setContext(opts.context);
+    this.patterns.push('picnmix');
   }
 
   initializing() {
-    this.promptmgr.add('liberty');
   }
 
 
@@ -39,12 +41,11 @@ module.exports = class extends Generator {
   }
 
   configuring() {
+    this.configure(this);
   }
 
   writing() {
-    this.destinationRoot(this.conf.projectPath);
-    this.logger.writeToLog("Destination path", this.destinationRoot());
-    this.defaultWriter(this.templatePath());   //use the default writer supplied by the context.
+    return this.defaultWriter(this);   //use the default writer supplied by the context.
   }
 
   end() {
