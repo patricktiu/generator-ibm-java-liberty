@@ -21,7 +21,7 @@
 const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
-const AssertTech = require('./assert.technologies');
+const AssertTech = require('../../lib/assert.technologies');
 const MockContext = require('../mocks/mock.context');
 
 const ARTIFACTID = 'artifact.0.1';
