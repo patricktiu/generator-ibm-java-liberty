@@ -17,8 +17,7 @@
 'use strict'
 
 module.exports = {
-  unitTests : () => {require('./test/unit/unit.test');},
   integrationAsserts : {
-    technologies : require('./test/integration/assert.technologies')
+    technologies : require('./lib/assert.technologies')
   }
 };
