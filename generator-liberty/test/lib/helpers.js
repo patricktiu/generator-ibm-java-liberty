@@ -34,7 +34,8 @@ Handlebars.registerHelper('has', function(context, options, handler) {
   var found = Array.isArray(context) ? context.includes(options) : (context === options);
   //see if the current context matches the options passed in
   if (found) {
-    return copyStack(handler);
+    var data = Handlebars.createFrame(handler.data);
+    return handler.fn(handler.data.root, {data : data, blockParams : [handler.data.root]});
   }
   //parameters didn't match, so don't render anything in the template
   return undefined;
@@ -45,33 +46,13 @@ Handlebars.registerHelper('missing', function(context, options, handler) {
   var missing = Array.isArray(context) ? !context.includes(options) : (context != options);
   //see if the current context matches the options passed in
   if (missing) {
-    return copyStack(handler);
+    var data = Handlebars.createFrame(handler.data);
+    //pass back contents as is for processing, rather than the data that is passed as the context
+    return handler.fn(handler.data.root, {data : data, blockParams : [handler.data.root]});
   }
   //parameters matched, so don't render anything in the template
   return undefined;
 });
-
-var copyStack = function(handler) {
-  var frame = undefined;
-  if (handler.data) {
-    //this section allows the contents of the tag to be passed through to the processor
-    //but as this is a stack, need to create a new stack frame for this call so that it
-    //is popped correctly
-    frame = {};
-    for (var prop in handler.data) {
-      //clone the object as we want to add a _parent property
-      if (handler.data.hasOwnProperty(prop)) {
-          frame[prop] = handler.data[prop];
-      }
-    }
-    frame._parent = handler.data;
-  }
-  //call down and process the contents of the block
-  return handler.fn(handler.data.root, {
-    data: frame,
-    blockParams: [handler.data.root]
-  });
-}
 
 //convert tag contents to lower case
 Handlebars.registerHelper('toLowerCase', function(context) {
