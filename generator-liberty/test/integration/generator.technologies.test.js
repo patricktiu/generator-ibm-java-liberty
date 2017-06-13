@@ -15,7 +15,7 @@
  */
 
 /**
- * Tests the microservice generator
+ * Tests the technology aspect of the generator
  */
 'use strict';
 const path = require('path');
@@ -66,7 +66,7 @@ execute('picnmix', 'picnmix', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
 
-  describe('java generator : technologies integration test', function () {
+  describe('java liberty generator : technologies integration test', function () {
 
     for(var i = 0; i < technologiesToTest.length; i++) {
       describe('Generates a ' + createType + ' project for ' + technologiesToTest[i], function () {
@@ -80,7 +80,7 @@ function execute(createType, assertFunc, technologiesToTest) {
   });
 }
 
-describe('java generator : technologies integration test', function () {
+describe('java liberty generator : technologies integration test', function () {
 
   describe('Generates a project for (no technologies)', function () {
     var options = new Options('picnmix', []);
@@ -108,7 +108,7 @@ for(var i = 0; i < 5; i++) {
     }
   }
 
-  describe('java generator : ' + totalTechnologies + ' random technologies integration test', function () {
+  describe('java liberty generator : ' + totalTechnologies + ' random technologies integration test', function () {
 
     describe('Generates a project for [' + description.trim() + ']', function () {
       var options = new Options('picnmix', techs);
