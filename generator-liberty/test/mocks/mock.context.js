@@ -19,7 +19,17 @@
 //mock a context object to allow simulated composure by other generators
 
 const Handlebars = require('handlebars');
+const helpers = require("../lib/helpers");
 const fspath = require('path');
+
+function processTemplates(generator, templateName, data) {
+  generator.fs.copy( fspath.join(generator.templatePath(), templateName),
+                    generator.destinationRoot(),
+                    {process : function(content, filename) {
+                      var compiledTemplate = Handlebars.compile(content.toString());
+                      return compiledTemplate(data);
+                    }});
+}
 
 function Context(conf) {
   this.conf = conf;
@@ -50,17 +60,21 @@ function Context(conf) {
   };
 
   this.defaultWriter = function(generator) {
-    generator.fs.copyTpl(fspath.join(generator.templatePath(), 'picnmix'), generator.destinationRoot(), undefined, {process : content => {
-      var compiledTemplate = Handlebars.compile(content);
-      return compiledTemplate(this.conf);
-    }});
+    var data = this.conf;
 
+    //process all the files in the templates directory under picnmix
+    processTemplates(generator, 'picnmix', this.conf);
+    processTemplates(generator, 'liberty', this.conf);
+
+    //process any selected technologies
     var from = fspath.resolve(generator.templatePath(), 'technologies');
     this.conf.technologies.forEach(technology => {
-      generator.fs.copyTpl(fspath.join(from, technology), generator.destinationRoot(), undefined, {process : content => {
-        var compiledTemplate = Handlebars.compile(content);
-        return compiledTemplate(this.conf);
-      }});
+      generator.fs.copy(fspath.join(from, technology),
+                        generator.destinationRoot(),
+                        {process : function(content, filename) {
+                          var compiledTemplate = Handlebars.compile(content.toString());
+                          return compiledTemplate(data);
+                        }});
     });
 
   }

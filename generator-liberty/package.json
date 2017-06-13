@@ -23,6 +23,8 @@
   "scripts": {
     "test": "mocha test/unit/*",
     "testint": "mocha test/integration/*",
+    "testliberty": "mocha test/integration/generator.liberty.*",
+    "testtech": "mocha test/integration/generator.technologies.*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",
     "coverageint": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/integration/generator*",
     "istanbul": "./node_modules/istanbul/lib/cli.js",
