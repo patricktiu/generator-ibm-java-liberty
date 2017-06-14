@@ -15,6 +15,7 @@
   ],
   "composition" : [
     "build",
+    "liberty",
     {{#each technologies}}
     "technologies/{{this}}",
     {{/each}}

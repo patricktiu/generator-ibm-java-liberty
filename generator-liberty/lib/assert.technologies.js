@@ -21,7 +21,7 @@
 const assert = require('yeoman-assert');
 const INDEX_HTML = 'src/main/webapp/index.html';
 
-function AssertLiberty() {
+function AssertTech() {
   this.assert = function() {
     it('generates an index.html', function() {
       assert.file(INDEX_HTML);
@@ -90,4 +90,4 @@ function AssertLiberty() {
   }
 }
 
-module.exports = exports = AssertLiberty;
+module.exports = exports = AssertTech;
