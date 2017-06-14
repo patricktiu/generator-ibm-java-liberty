@@ -18,6 +18,7 @@
 
 module.exports = {
   integrationAsserts : {
-    technologies : require('./lib/assert.technologies')
+    technologies : require('./lib/assert.technologies'),
+    liberty : require('./lib/assert.liberty')
   }
 };

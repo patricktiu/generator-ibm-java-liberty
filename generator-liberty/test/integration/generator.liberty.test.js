@@ -70,10 +70,10 @@ describe('java liberty generator : Liberty server integration test', function ()
     before(options.before.bind(options));
     options.assertContextRoot(APPNAME);
     jndiEntries.forEach(entry => {
-      options.assertJNDI(entry.name, entry.value);
+      options.assertJNDI(true, entry.name, entry.value);
     });
     envEntries.forEach(entry => {
-      options.assertEnv(entry.name, entry.value);
+      options.assertEnv(true, entry.name, entry.value);
     });
   });
 

@@ -25,17 +25,19 @@ const SERVER_ENV = 'src/main/liberty/config/server.env';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 
 function AssertLiberty() {
-  this.assertJNDI = function(name, value) {
+  this.assertJNDI = function(exists, name, value) {
     it('contains a server.xml JDNI entry for ' + name + " = " + value, function() {
+      var check = exists ? assert.fileContent : assert.noFileContent;
       assert.file(SERVER_XML);
-      assert.fileContent(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
+      check(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
     });
   }
 
-  this.assertEnv = function(name, value) {
+  this.assertEnv = function(exists, name, value) {
     it('contains a server.env entry for ' + name + " = " + value, function() {
+      var check = exists ? assert.fileContent : assert.noFileContent;
       assert.file(SERVER_ENV);
-      assert.fileContent(SERVER_ENV, name + '="' + value + '"');
+      check(SERVER_ENV, name + '="' + value + '"');
     });
   }
 
