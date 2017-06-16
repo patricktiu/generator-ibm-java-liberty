@@ -68,6 +68,7 @@ describe('java liberty generator : Liberty server integration test', function ()
     var envEntries = [{name: 'envName', value : 'envValue'}];
     var options = new Options('picnmix', jndiEntries, envEntries);
     before(options.before.bind(options));
+    options.assertAllFiles(true);
     options.assertContextRoot(APPNAME);
     jndiEntries.forEach(entry => {
       options.assertJNDI(true, entry.name, entry.value);

@@ -18,8 +18,7 @@
 
 //mock a context object to allow simulated composure by other generators
 
-const Handlebars = require('handlebars');
-const helpers = require("../lib/helpers");
+const Handlebars = require("@arf/java-common").helpers.handlebars;
 const fspath = require('path');
 
 function processTemplates(generator, templateName, data) {

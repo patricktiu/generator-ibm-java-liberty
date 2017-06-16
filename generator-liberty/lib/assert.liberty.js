@@ -25,10 +25,19 @@ const SERVER_ENV = 'src/main/liberty/config/server.env';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 
 function AssertLiberty() {
+  this.assertAllFiles = function(exists) {
+    var check = exists ? assert.fileContent : assert.noFileContent;
+    var type = exists ? 'has' : 'does not have';
+    it(type + ' server.xml, server.env and ibm-web-ext.xml', function() {
+      assert.file(SERVER_XML);
+      assert.file(SERVER_ENV);
+      assert.file(IBM_WEB_EXT);
+    });
+  }
+
   this.assertJNDI = function(exists, name, value) {
     it('contains a server.xml JDNI entry for ' + name + " = " + value, function() {
       var check = exists ? assert.fileContent : assert.noFileContent;
-      assert.file(SERVER_XML);
       check(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
     });
   }
@@ -36,14 +45,12 @@ function AssertLiberty() {
   this.assertEnv = function(exists, name, value) {
     it('contains a server.env entry for ' + name + " = " + value, function() {
       var check = exists ? assert.fileContent : assert.noFileContent;
-      assert.file(SERVER_ENV);
       check(SERVER_ENV, name + '="' + value + '"');
     });
   }
 
   this.assertContextRoot = function(name) {
     it('contains a ibm-web-ext.xml entry for ' + name, function() {
-      assert.file(IBM_WEB_EXT);
       assert.fileContent(IBM_WEB_EXT, '<context-root uri="/' + name + '"/>');
     });
   }
