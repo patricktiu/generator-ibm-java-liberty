@@ -23,6 +23,8 @@ const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
+const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const tests = require('@arf/java-common');
 
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
@@ -32,6 +34,14 @@ function AssertLiberty() {
       assert.file(SERVER_XML);
       assert.file(SERVER_ENV);
       assert.file(IBM_WEB_EXT);
+    });
+  }
+
+  this.assertVersion = function(buildType) {
+    it('contains Liberty version ' + LIBERTY_VERSION, function() {
+      if(buildType === 'gradle') {
+        tests.test('gradle').assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
+      }
     });
   }
 
@@ -50,8 +60,15 @@ function AssertLiberty() {
   }
 
   this.assertContextRoot = function(name) {
-    it('contains a ibm-web-ext.xml entry for ' + name, function() {
+    it('contains a ibm-web-ext.xml context root for ' + name, function() {
       assert.fileContent(IBM_WEB_EXT, '<context-root uri="/' + name + '"/>');
+    });
+  }
+
+  this.assertFeature = function(exists, name) {
+    it(SERVER_XML + 'contains a feature for ' + name, function() {
+      var check = exists ? assert.fileContent : assert.noFileContent;
+      check(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
 }
