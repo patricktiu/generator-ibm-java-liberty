@@ -26,14 +26,22 @@ const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const tests = require('@arf/java-common');
 
+//handy function for checking both existence and non-existence
+function getCheck(exists) {
+  return {
+    file : exists ? assert.file : assert.noFile,
+    desc : exists ? 'should create ' : 'should not create ',
+    content : exists ? assert.fileContent : assert.noFileContent
+  }
+}
+
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
-    var check = exists ? assert.fileContent : assert.noFileContent;
-    var type = exists ? 'has' : 'does not have';
-    it(type + ' server.xml, server.env and ibm-web-ext.xml', function() {
-      assert.file(SERVER_XML);
-      assert.file(SERVER_ENV);
-      assert.file(IBM_WEB_EXT);
+    var check = getCheck(exists);
+    it(check.desc + 'server.xml, server.env and ibm-web-ext.xml', function() {
+      check.file(SERVER_XML);
+      check.file(SERVER_ENV);
+      check.file(IBM_WEB_EXT);
     });
   }
 
@@ -46,16 +54,16 @@ function AssertLiberty() {
   }
 
   this.assertJNDI = function(exists, name, value) {
-    it('contains a server.xml JDNI entry for ' + name + " = " + value, function() {
-      var check = exists ? assert.fileContent : assert.noFileContent;
-      check(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
+    var check = getCheck(exists);
+    it(check.desc + 'a server.xml JDNI entry for ' + name + " = " + value, function() {
+      check.content(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
     });
   }
 
   this.assertEnv = function(exists, name, value) {
-    it('contains a server.env entry for ' + name + " = " + value, function() {
-      var check = exists ? assert.fileContent : assert.noFileContent;
-      check(SERVER_ENV, name + '="' + value + '"');
+    var check = getCheck(exists);
+    it(check.desc + 'a server.env entry for ' + name + " = " + value, function() {
+      check.content(SERVER_ENV, name + '="' + value + '"');
     });
   }
 
@@ -66,9 +74,9 @@ function AssertLiberty() {
   }
 
   this.assertFeature = function(exists, name) {
-    it(SERVER_XML + 'contains a feature for ' + name, function() {
-      var check = exists ? assert.fileContent : assert.noFileContent;
-      check(SERVER_XML, "<feature>" + name + "</feature>");
+    var check = getCheck(exists);
+    it(SERVER_XML + ' ' + check.desc + 'a feature for ' + name, function() {
+      check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
 }
