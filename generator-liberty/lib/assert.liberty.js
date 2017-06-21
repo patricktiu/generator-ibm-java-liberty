@@ -50,6 +50,14 @@ function AssertLiberty() {
       if(buildType === 'gradle') {
         tests.test('gradle').assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
       }
+      if(buildType === 'maven') {
+        var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
+        var artifactId = 'wlp-webProfile7';
+        var version = LIBERTY_VERSION.replace(/\./g, '\\.');
+        var content = '<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>';
+        var regex = new RegExp(content);
+        tests.test('maven').assertContent(regex);
+      }
     });
   }
 
