@@ -97,7 +97,7 @@ describe('java liberty generator : technologies integration test', function () {
   describe('Generates a project for (no technologies)', function () {
     var options = new Options('picnmix', [], 'maven');
     before(options.before.bind(options));
-    options.assert(APPNAME, false);
+    options.assert(APPNAME);
   });
 
 });
