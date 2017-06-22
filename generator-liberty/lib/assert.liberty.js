@@ -23,28 +23,68 @@ const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
+const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const tests = require('@arf/java-common');
+
+//handy function for checking both existence and non-existence
+function getCheck(exists) {
+  return {
+    file : exists ? assert.file : assert.noFile,
+    desc : exists ? 'should create ' : 'should not create ',
+    content : exists ? assert.fileContent : assert.noFileContent
+  }
+}
 
 function AssertLiberty() {
+  this.assertAllFiles = function(exists) {
+    var check = getCheck(exists);
+    it(check.desc + 'server.xml, server.env and ibm-web-ext.xml', function() {
+      check.file(SERVER_XML);
+      check.file(SERVER_ENV);
+      check.file(IBM_WEB_EXT);
+    });
+  }
+
+  this.assertVersion = function(buildType) {
+    it('contains Liberty version ' + LIBERTY_VERSION, function() {
+      if(buildType === 'gradle') {
+        tests.test('gradle').assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
+      }
+      if(buildType === 'maven') {
+        var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
+        var artifactId = 'wlp-webProfile7';
+        var version = LIBERTY_VERSION.replace(/\./g, '\\.');
+        var content = '<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>';
+        var regex = new RegExp(content);
+        tests.test('maven').assertContent(regex);
+      }
+    });
+  }
+
   this.assertJNDI = function(exists, name, value) {
-    it('contains a server.xml JDNI entry for ' + name + " = " + value, function() {
-      var check = exists ? assert.fileContent : assert.noFileContent;
-      assert.file(SERVER_XML);
-      check(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
+    var check = getCheck(exists);
+    it(check.desc + 'a server.xml JDNI entry for ' + name + " = " + value, function() {
+      check.content(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
     });
   }
 
   this.assertEnv = function(exists, name, value) {
-    it('contains a server.env entry for ' + name + " = " + value, function() {
-      var check = exists ? assert.fileContent : assert.noFileContent;
-      assert.file(SERVER_ENV);
-      check(SERVER_ENV, name + '="' + value + '"');
+    var check = getCheck(exists);
+    it(check.desc + 'a server.env entry for ' + name + " = " + value, function() {
+      check.content(SERVER_ENV, name + '="' + value + '"');
     });
   }
 
   this.assertContextRoot = function(name) {
-    it('contains a ibm-web-ext.xml entry for ' + name, function() {
-      assert.file(IBM_WEB_EXT);
+    it('contains a ibm-web-ext.xml context root for ' + name, function() {
       assert.fileContent(IBM_WEB_EXT, '<context-root uri="/' + name + '"/>');
+    });
+  }
+
+  this.assertFeature = function(exists, name) {
+    var check = getCheck(exists);
+    it(SERVER_XML + ' ' + check.desc + 'a feature for ' + name, function() {
+      check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
 }

@@ -22,7 +22,9 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const AssertTech = require('../../lib/assert.technologies');
-const MockContext = require('../mocks/mock.context');
+const MockPromptMgr = require('../mocks/mock.promptmgr');
+const common = require('@arf/java-common');
+const command = common.test('command');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -32,12 +34,12 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertTech {
 
-  constructor(createType, technologies) {
+  constructor(createType, technologies, buildType) {
     super();
     this.conf = {
       headless :  "true",
       debug : "true",
-      buildType : 'maven',
+      buildType : buildType,
       createType : createType,
       promptType : 'prompt:liberty',
       technologies : technologies,
@@ -46,8 +48,9 @@ class Options extends AssertTech {
       artifactId : ARTIFACTID,
       version : VERSION
     }
+    var ctx = new common.context('test', this.conf, new MockPromptMgr());
     this.options = {
-      context : new MockContext(this.conf)
+      context : ctx
     };
     this.before = function() {
       return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -55,11 +58,15 @@ class Options extends AssertTech {
         .withPrompts({})
         .toPromise();
     }
+    this.assertCompiles = function() {
+      command.run(common.test(buildType).getCompileCommand());
+    }
   }
 
 }
 
-var technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+const buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
 //execute('technologies/msbuilder', 'msbuilder', technologies);
@@ -69,27 +76,31 @@ function execute(createType, assertFunc, technologiesToTest) {
   describe('java liberty generator : technologies integration test', function () {
 
     for(var i = 0; i < technologiesToTest.length; i++) {
-      describe('Generates a ' + createType + ' project for ' + technologiesToTest[i], function () {
-        var options = new Options(createType, [technologiesToTest[i]]);
-        before(options.before.bind(options));
-        options['assert' + assertFunc]();
-        options['assert' + technologiesToTest[i]]();
-      });
+      for(var j = 0; j < buildTypes.length; j++) {
+        describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ')', function () {
+          var options = new Options(createType, [technologiesToTest[i]], buildTypes[j]);
+          before(options.before.bind(options));
+          options['assert' + assertFunc](APPNAME);
+          options['assert' + technologiesToTest[i]](buildTypes[j]);
+          if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
+            options.assertspringboot_webonly(buildTypes[j]);
+          }
+          options.assertCompiles();
+        });
+      }
     }
-
   });
 }
 
 describe('java liberty generator : technologies integration test', function () {
 
   describe('Generates a project for (no technologies)', function () {
-    var options = new Options('picnmix', []);
+    var options = new Options('picnmix', [], 'maven');
     before(options.before.bind(options));
-    options.assert();
+    options.assert(APPNAME);
   });
 
 });
-
 
 for(var i = 0; i < 5; i++) {
   var totalTechnologies = Math.floor(Math.random() * technologies.length) + 1;  //how many technologies to pick - min of 1 up to number of available technologies
@@ -107,15 +118,18 @@ for(var i = 0; i < 5; i++) {
       j++;
     }
   }
+  executeMultiTechTest(description, techs);
+}
 
+function executeMultiTechTest(description, techs) {
   describe('java liberty generator : ' + totalTechnologies + ' random technologies integration test', function () {
 
     describe('Generates a project for [' + description.trim() + ']', function () {
-      var options = new Options('picnmix', techs);
+      var options = new Options('picnmix', techs, 'maven');
       before(options.before.bind(options));
-      options.assertpicnmix();
+      options.assertpicnmix(APPNAME);
       for(var k = 0; k < techs.length; k++) {
-        options['assert' + techs[k]]();
+        options['assert' + techs[k]]('maven');
       }
     });
 

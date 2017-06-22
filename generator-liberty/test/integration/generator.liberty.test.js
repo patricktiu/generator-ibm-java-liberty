@@ -22,7 +22,8 @@ const path = require('path');
 const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const AssertLiberty = require('../../lib/assert.liberty');
-const MockContext = require('../mocks/mock.context');
+const MockPromptMgr = require('../mocks/mock.promptmgr');
+const common = require('@arf/java-common');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -32,24 +33,26 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(createType, jndiEntries, envEntries) {
+  constructor(buildType, createType, jndiEntries, envEntries, frameworkDependencies) {
     super();
     this.conf = {
       headless :  "true",
       debug : "true",
-      buildType : 'maven',
+      buildType : buildType,
       createType : createType,
       promptType : 'prompt:liberty',
       technologies : [],
       jndiEntries : jndiEntries,
       envEntries : envEntries,
+      frameworkDependencies :frameworkDependencies,
       appName : APPNAME,
       groupId : GROUPID,
       artifactId : ARTIFACTID,
       version : VERSION
     }
+    var ctx = new common.context('test', this.conf, new MockPromptMgr());
     this.options = {
-      context : new MockContext(this.conf)
+      context : ctx
     };
     this.before = function() {
       return helpers.run(path.join( __dirname, '../../generators/app'))
@@ -61,20 +64,30 @@ class Options extends AssertLiberty {
 
 }
 
+const buildTypes = ['gradle', 'maven'];
+var jndiEntries = [{name :'jndiName', value:'jndiValue'}];
+var envEntries = [{name: 'envName', value : 'envValue'}];
+var frameworkDependencies = [{"feature" : "testfeature"}];
+
 describe('java liberty generator : Liberty server integration test', function () {
 
-  describe('Generates server configuration (no technologies)', function () {
-    var jndiEntries = [{name :'jndiName', value:'jndiValue'}];
-    var envEntries = [{name: 'envName', value : 'envValue'}];
-    var options = new Options('picnmix', jndiEntries, envEntries);
-    before(options.before.bind(options));
-    options.assertContextRoot(APPNAME);
-    jndiEntries.forEach(entry => {
-      options.assertJNDI(true, entry.name, entry.value);
+  buildTypes.forEach(type => {
+    describe('Generates server configuration (no technologies) ' + type, function () {
+      var options = new Options(type, 'picnmix', jndiEntries, envEntries, frameworkDependencies);
+      before(options.before.bind(options));
+      options.assertAllFiles(true);
+      options.assertContextRoot(APPNAME);
+      options.assertVersion(type);
+      jndiEntries.forEach(entry => {
+        options.assertJNDI(true, entry.name, entry.value);
+      });
+      envEntries.forEach(entry => {
+        options.assertEnv(true, entry.name, entry.value);
+      });
+      frameworkDependencies.forEach(entry => {
+        options.assertFeature(true, entry.feature);
+      });
     });
-    envEntries.forEach(entry => {
-      options.assertEnv(true, entry.name, entry.value);
-    });
-  });
+  })
 
 });
