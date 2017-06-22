@@ -80,8 +80,7 @@ function execute(createType, assertFunc, technologiesToTest) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ')', function () {
           var options = new Options(createType, [technologiesToTest[i]], buildTypes[j]);
           before(options.before.bind(options));
-          var springSelected = technologiesToTest[i] === 'springboot_web';
-          options['assert' + assertFunc](APPNAME, springSelected);
+          options['assert' + assertFunc](APPNAME);
           options['assert' + technologiesToTest[i]](buildTypes[j]);
           if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
             options.assertspringboot_webonly(buildTypes[j]);
@@ -108,7 +107,6 @@ for(var i = 0; i < 5; i++) {
   var techsToPickFrom = Array.from(technologies);                        //copy of technologies to pick from
   var techs = new Array();                                           //chosen technologies
   var description = new String();
-  var springSelected = false;
 
   for(var j = 0; j < totalTechnologies; ) {
     var index = Math.floor(Math.random() * technologies.length);
@@ -118,19 +116,18 @@ for(var i = 0; i < 5; i++) {
       techsToPickFrom[index] = undefined;
       description += tech + ' ';
       j++;
-      springSelected |= (tech === 'springboot_web');
     }
   }
-  executeMultiTechTest(description, techs, springSelected);
+  executeMultiTechTest(description, techs);
 }
 
-function executeMultiTechTest(description, techs, springSelected) {
+function executeMultiTechTest(description, techs) {
   describe('java liberty generator : ' + totalTechnologies + ' random technologies integration test', function () {
 
     describe('Generates a project for [' + description.trim() + ']', function () {
       var options = new Options('picnmix', techs, 'maven');
       before(options.before.bind(options));
-      options.assertpicnmix(APPNAME, springSelected);
+      options.assertpicnmix(APPNAME);
       for(var k = 0; k < techs.length; k++) {
         options['assert' + techs[k]]('maven');
       }

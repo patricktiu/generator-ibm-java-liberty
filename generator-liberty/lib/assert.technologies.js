@@ -25,7 +25,7 @@ const AssertLiberty = require('./assert.liberty');
 const liberty = new AssertLiberty();
 
 function AssertTech() {
-  this.assert = function(name, springSelected) {
+  this.assert = function(name) {
     it('generates an index.html', function() {
       assert.file(INDEX_HTML);
     });
@@ -36,11 +36,11 @@ function AssertTech() {
     liberty.assertAllFiles(true);
     liberty.assertContextRoot(name);
   }
-  this.assertpicnmix = function(name, springSelected) {
-    this.assert(name, springSelected);    //there are no additional files to check for
+  this.assertpicnmix = function(name) {
+    this.assert(name);    //there are no additional files to check for
   }
-  this.assertmsbuilder = function() {
-    this.assert(name, springSelected);    //there are no additional files to check for
+  this.assertmsbuilder = function(name) {
+    this.assert(name);    //there are no additional files to check for
     kube.test(this.options.appName, true);
     it('adds MS Builder section to index.html', function() {
       assert.fileContent(INDEX_HTML, '<h2>Microservice Builder');
