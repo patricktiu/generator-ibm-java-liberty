@@ -56,10 +56,6 @@ Extension.prototype.getQuestions = function() {
       name : 'Pic\'n\'Mix : pick from a list of technologies',
       value : 'picnmix',
       short : 'Basic technology selection'
-    }, {
-      name : 'Microservice Builder : develop and deliver microservices, hybrid and containerized apps',
-      value : 'technologies/msbuilder',
-      short : 'Microservice Builder'
     }]},{
       when    : this.show.bind(this),
       type    : 'list',
@@ -90,7 +86,7 @@ Extension.prototype.getQuestions = function() {
     type : 'checkbox',
     name : 'technologies',
     message : 'Select the technologies for your project.',
-    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websockets'}, {name: 'servlet'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springboot_web'}],
+    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websockets'}, {name: 'servlet'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springboot_web'}, {name: 'msbuilder'}],
     validate : function (answer) {
       if (answer.length < 1) {
         return 'You must choose at least one technology.';
