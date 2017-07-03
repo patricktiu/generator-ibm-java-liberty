@@ -24,6 +24,7 @@
   "scripts": {
     "test": "mocha test/unit/*",
     "testint": "mocha test/integration/*",
+    "testdefaults": "mocha test/integration/generator.defaults.test.js",
     "testliberty": "mocha test/integration/generator.liberty.*",
     "testtech": "mocha test/integration/generator.technologies.*",
     "coverage": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha test/unit/*",

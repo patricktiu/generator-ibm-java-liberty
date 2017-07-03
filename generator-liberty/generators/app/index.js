@@ -19,6 +19,7 @@ var Handlebars = require('handlebars');
 var fspath = require('path');
 var fs = require('fs');
 var extend = require('extend');
+var defaults = require('../../lib/defaults');
 
 
 module.exports = class extends Generator {
@@ -30,6 +31,12 @@ module.exports = class extends Generator {
     var ext = this.promptmgr.add(require('../prompts/liberty.js'));
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
+    defaults.get().forEach(key => {
+      if(!this.conf[key]) {
+        this.conf[key] = defaults.get(key);
+      }
+    });
+    this.conf.apply(opts);
   }
 
   initializing() {
