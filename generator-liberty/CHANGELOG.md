@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v2.0.0...v2.1.0) (2017-07-03)
+
+
+### Features
+
+* **config:** Set config defaults specific to Liberty ([ae3d353](https://github.ibm.com/arf/java-codegen-liberty/commit/ae3d353))
+* **templates:** Add template content for deployType bluemix ([252acbe](https://github.ibm.com/arf/java-codegen-liberty/commit/252acbe))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v1.1.0...v2.0.0) (2017-06-30)
 
