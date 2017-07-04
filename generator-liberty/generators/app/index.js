@@ -36,7 +36,7 @@ module.exports = class extends Generator {
         this.conf[key] = defaults.get(key);
       }
     });
-    this.conf.apply(opts);
+    this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 
   initializing() {
