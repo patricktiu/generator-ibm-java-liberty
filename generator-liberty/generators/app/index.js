@@ -50,9 +50,7 @@ module.exports = class extends Generator {
   }
 
   configuring() {
-    this.logger.writeToLog("Liberty Generator conf (before this.configure)", this.conf);
     this.configure(this);
-    this.logger.writeToLog("Liberty Generator conf (after this.configure)", this.conf);
   }
 
   writing() {
