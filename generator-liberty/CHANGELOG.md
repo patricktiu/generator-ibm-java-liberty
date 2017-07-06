@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.2.0"></a>
+# [2.2.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v2.1.2...v2.2.0) (2017-07-06)
+
+
+### Bug Fixes
+
+* **config:** Update generator to add on missing defaults ([3bda535](https://github.ibm.com/arf/java-codegen-liberty/commit/3bda535))
+
+
+### Features
+
+* **config:** Update generator to use new defaults module ([ea19783](https://github.ibm.com/arf/java-codegen-liberty/commit/ea19783))
+
+
+
 <a name="2.1.2"></a>
 ## [2.1.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v2.1.1...v2.1.2) (2017-07-05)
 
