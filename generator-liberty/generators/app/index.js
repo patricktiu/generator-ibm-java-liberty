@@ -14,28 +14,27 @@
  * limitations under the License.
  */
 
-var Generator = require('yeoman-generator');
-var Handlebars = require('handlebars');
-var fspath = require('path');
-var fs = require('fs');
-var extend = require('extend');
-var defaults = require('../../lib/defaults');
+const Generator = require('yeoman-generator');
+const Handlebars = require('handlebars');
+const fspath = require('path');
+const fs = require('fs');
+const extend = require('extend');
+const Defaults = require('../../lib/defaults');
 
+var defaults = new Defaults();
 
 module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
+    //create command line options that will be passed by YaaS
+    defaults.setOptions(this);
     extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
     this.logger.writeToLog("Liberty Generator context", opts.context);
     var ext = this.promptmgr.add(require('../prompts/liberty.js'));
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
-    defaults.get().forEach(key => {
-      if(!this.conf[key]) {
-        this.conf[key] = defaults.get(key);
-      }
-    });
+    this.conf.addMissing(opts, defaults);
     this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 

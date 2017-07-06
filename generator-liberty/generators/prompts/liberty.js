@@ -107,11 +107,7 @@ Extension.prototype.setContext = function(ctx) {
 }
 
 Extension.prototype.afterPrompt = function(answers, config) {
-  if(this.context) {
-    this.context.conf.apply(answers);
-  } else {
-    config.apply(answers);
-  }
+  this.context.conf.overwrite(answers);
 }
 
 module.exports = exports = Extension;

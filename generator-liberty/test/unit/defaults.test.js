@@ -17,52 +17,11 @@
 // test the defaults module
 
 var assert = require('assert');
-var defaults = require('../../lib/defaults');
+var Defaults = require('../../lib/defaults');
+
+var defaults = new Defaults();
 
 describe('Defaults module', function() {
-  describe('Call getDefault to get the default object', function() {
-    var deployType = defaults.getObject('deployType');
-    var technologies = defaults.getObject('technologies');
-    it('can get the default value', function() {
-      assert.equal(deployType.default, 'local');
-      assert(Array.isArray(technologies.default));
-      assert.equal(technologies.default.length, 1);
-      assert.equal(technologies.default[0], 'rest');
-    });
-    it('can get the description', function() {
-      assert.equal(deployType.desc, 'Type of deployment required');
-      assert.equal(technologies.desc, 'Technologies to configure when using the prompt:liberty promptType');
-    });
-    it('can get the type', function() {
-      assert.equal(deployType.type, String);
-    });
-  });
-  it('can use get() to get the default value', function() {
-    assert.equal(defaults.get('deployType'), 'local');
-    var technologies = defaults.get('technologies');
-    assert(Array.isArray(technologies));
-    assert.equal(technologies.length, 1);
-    assert.equal(technologies[0], 'rest');
-  });
-  describe('Call getDefaults to get a list of config values with defaults', function() {
-    var defaultValues = defaults.get();
-    var foundTechnologies = false;
-    var foundDeployType = false;
-    for(var i = 0; i < defaultValues.length; i++) {
-      if(defaultValues[i] === 'technologies') {
-        foundTechnologies = true;
-      }
-      if(defaultValues[i] === 'deployType') {
-        foundDeployType = true;
-      }
-    }
-    it('finds technologies in the list of config values with defaults', function() {
-      assert(foundTechnologies);
-    });
-    it('finds deployType in the list of config values with defaults', function() {
-      assert(foundDeployType);
-    });
-  });
 
   describe('Technologies default type is an array', function() {
     var technologiesType = defaults.getObject('technologies').type;
