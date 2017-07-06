@@ -26,16 +26,18 @@ module.exports = class extends Generator {
 
   constructor(args, opts) {
     super(args, opts);
+    //create command line options that will be passed by YaaS
+    var defaultValues = defaults.get();
+    for(var i = 0; i < defaultValues.length; i++) {
+      var defaultValue = defaultValues[i];
+      this.option(defaultValue, defaults.getObject(defaultValue));
+    }
     extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
     this.logger.writeToLog("Liberty Generator context", opts.context);
     var ext = this.promptmgr.add(require('../prompts/liberty.js'));
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
-    defaults.get().forEach(key => {
-      if(!this.conf[key]) {
-        this.conf[key] = defaults.get(key);
-      }
-    });
+    this.conf.addMissing(opts, defaults);
     this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 
