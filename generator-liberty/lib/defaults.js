@@ -16,34 +16,15 @@
 
 //module for storing default configuration values
 
+const defaultModule = require('@arf/java-common').defaults;
+
 const DEFAULTS = {
   technologies : {desc : 'Technologies to configure when using the prompt:liberty promptType', type : (value)=>{return Array.isArray(value) ? value : value.split(",");}, default : ['rest']},
   deployType : {desc : 'Type of deployment required', type : String, default: 'local'}
 };
 
-var getDefaultObject = function(name) {
-  return DEFAULTS[name];
-}
-
-var get = function(name) {
-  if (name === undefined) {
-    return Object.keys(DEFAULTS);
-  } else {
-    return DEFAULTS[name].default;
+module.exports = class extends defaultModule {
+  constructor() {
+    super(DEFAULTS);
   }
 }
-
-var toObject = function(value) {
-  if(typeof value == 'string') {
-    return JSON.parse(value);
-  }
-  if(typeof value === 'object') {
-    return value;
-  }
-  return value;
-}
-
-module.exports = {
-  getObject : getDefaultObject,
-  get : get
-};
