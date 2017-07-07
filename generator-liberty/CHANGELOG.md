@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.0.0"></a>
+# [3.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v2.2.0...v3.0.0) (2017-07-07)
+
+
+### Features
+
+* **templates:** add tests to check readme contents ([a1f358a](https://github.ibm.com/arf/java-codegen-liberty/commit/a1f358a))
+* **templates:** Update springboot_web id to be springbootweb ([f3c3131](https://github.ibm.com/arf/java-codegen-liberty/commit/f3c3131))
+
+
+### BREAKING CHANGES
+
+* **templates:** springboot_web is no longer a valid technology
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+
+
+
 <a name="2.2.0"></a>
 # [2.2.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v2.1.2...v2.2.0) (2017-07-06)
 
