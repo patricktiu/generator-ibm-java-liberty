@@ -55,7 +55,7 @@ The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. T
 * **Servlet** : Inside the project there is a application.servlet package containing the `LibertyServlet` class. This adds a servlet with an endpoint which you can access at `http://localhost:9080/<context>/servlet`. There is also a test named `it.servlet.LibertyServletTest` that will test the servlet's endpoint to ensure it is working. For the complete feature documentation, see the [servlet-3.1](http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_servlet-3.1.html) feature description in IBM Knowledge Center.
 {{/has}}
 
-{{#has technologies 'springboot_web'}}
+{{#has technologies 'springbootweb'}}
 * **Springboot** : Inside the project there is a application.springboot.web package containing two classes:
     * `SpringBootLibertyApplication`: The entry point for the SpringBoot application.
     * `LibertyHelloController`: A Spring REST endpoint which you can access at `http://localhost:9080/<context>/springbootweb`</a>

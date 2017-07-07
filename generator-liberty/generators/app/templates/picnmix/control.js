@@ -2,7 +2,7 @@
   "excludes" : [
     ".classpath",
     ".project",
-    {{#has technologies 'springboot_web'}}
+    {{#has technologies 'springbootweb'}}
     "src/main/java/application/rest/HealthEndpoint.java",
     "src/main/java/application/rest/JaxrsApplication.java",
     "src/test/java/it/HealthEndpointIT.java"
