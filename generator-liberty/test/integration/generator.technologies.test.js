@@ -65,7 +65,7 @@ class Options extends AssertTech {
 
 }
 
-const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web', 'msbuilder'];
+const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
 const buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
@@ -81,8 +81,8 @@ function execute(createType, assertFunc, technologiesToTest) {
           before(options.before.bind(options));
           options['assert' + assertFunc](APPNAME);
           options['assert' + technologiesToTest[i]](buildTypes[j]);
-          if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
-            options.assertspringboot_webonly(buildTypes[j]);
+          if(technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
+            options.assertspringbootwebonly(buildTypes[j]);
           }
           if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
             options.assertmsbuilderwithname(APPNAME);
