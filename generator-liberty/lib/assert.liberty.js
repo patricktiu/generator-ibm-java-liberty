@@ -22,7 +22,9 @@
 const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
+const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
+const JVM_OPTIONS_JAVAAGENT = '-javaagent:../../shared/resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const tests = require('@arf/java-common');
 
@@ -38,11 +40,23 @@ function getCheck(exists) {
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
     var check = getCheck(exists);
-    it(check.desc + 'server.xml, server.env and ibm-web-ext.xml', function() {
+    it(check.desc + 'server.xml, server.env, jvm.options and ibm-web-ext.xml', function() {
       check.file(SERVER_XML);
       check.file(SERVER_ENV);
       check.file(IBM_WEB_EXT);
+      check.file(JVM_OPTIONS);
     });
+    
+    it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
+        check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
+     });
+    
+    this.assertFeature(true, "jsp-2.3");
+    this.assertFeature(true, "servlet-3.1");
+    this.assertFeature(true, "managedBean-1.0");
+    this.assertFeature(true, "websocket-1.1");
+  
+        
   }
 
   this.assertVersion = function(buildType) {
