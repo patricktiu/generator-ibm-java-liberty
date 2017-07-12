@@ -37,6 +37,12 @@ function getCheck(exists) {
   }
 }
 
+function getBuildCheck(exists, buildType) {
+  return {
+    content : exists ? tests.test(buildType).assertContent : tests.test(buildType).assertNoContent
+  }
+}
+
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
     var check = getCheck(exists);
@@ -60,17 +66,18 @@ function AssertLiberty() {
   }
 
   this.assertVersion = function(buildType) {
-    it('contains Liberty version ' + LIBERTY_VERSION, function() {
+    describe('contains Liberty version ' + LIBERTY_VERSION, function() {
+      var check = getBuildCheck(true, buildType);
       if(buildType === 'gradle') {
-        tests.test('gradle').assertContent('wlp-webProfile7-' + LIBERTY_VERSION);
+        check.content('wlp-webProfile7-' + LIBERTY_VERSION);
       }
       if(buildType === 'maven') {
         var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
         var artifactId = 'wlp-webProfile7';
         var version = LIBERTY_VERSION.replace(/\./g, '\\.');
-        var content = '<dependency>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>';
+        var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
         var regex = new RegExp(content);
-        tests.test('maven').assertContent(regex);
+        check.content(regex);
       }
     });
   }
@@ -99,6 +106,28 @@ function AssertLiberty() {
     var check = getCheck(exists);
     it(SERVER_XML + ' ' + check.desc + 'a feature for ' + name, function() {
       check.content(SERVER_XML, "<feature>" + name + "</feature>");
+    });
+  }
+  this.assertDeployType = function(deployType, buildType) {
+    describe('checks build steps for deploying to Bluemix', function() {
+      var check = getBuildCheck(deployType === 'bluemix', buildType);
+      if(buildType === 'gradle') {
+        check.content("cfContext = 'mybluemix.net'");
+        check.content("apply plugin: 'cloudfoundry'");
+        check.content('task checkBluemixPropertiesSet()');
+        check.content("task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet')");
+        check.content('def checkPropertySet(propertyName)');
+        check.content('cloudfoundry {');
+        check.content("cfPush.dependsOn 'printBluemixProperties'");
+      }
+      if(buildType === 'maven') {
+        var profileContent = '<profile>\\s*<id>bluemix</id>';
+        var profileRegex = new RegExp(profileContent);
+        check.content(profileRegex);
+        var propertyContent = '<cf\.context>mybluemix\.net</cf\.context>';
+        var propertyRegex = new RegExp(propertyContent);
+        check.content(propertyRegex);
+      }
     });
   }
 }
