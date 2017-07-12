@@ -65,11 +65,10 @@ class Options extends AssertTech {
 
 }
 
-const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springboot_web'];
+const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
 const buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);
-//execute('technologies/msbuilder', 'msbuilder', technologies);
 
 function execute(createType, assertFunc, technologiesToTest) {
 
@@ -82,8 +81,11 @@ function execute(createType, assertFunc, technologiesToTest) {
           before(options.before.bind(options));
           options['assert' + assertFunc](APPNAME);
           options['assert' + technologiesToTest[i]](buildTypes[j]);
-          if(technologiesToTest[i] === 'springboot_web' && createType === 'picnmix') {
-            options.assertspringboot_webonly(buildTypes[j]);
+          if(technologiesToTest[i] === 'springbootweb' && createType === 'picnmix') {
+            options.assertspringbootwebonly(buildTypes[j]);
+          }
+          if(technologiesToTest[i] === 'msbuilder' && createType === 'picnmix') {
+            options.assertmsbuilderwithname(APPNAME);
           }
           options.assertCompiles();
         });
@@ -130,6 +132,9 @@ function executeMultiTechTest(description, techs) {
       options.assertpicnmix(APPNAME);
       for(var k = 0; k < techs.length; k++) {
         options['assert' + techs[k]]('maven');
+      }
+      if(techs.includes('msbuilder')) {
+        options.assertmsbuilderwithname(APPNAME);
       }
     });
 

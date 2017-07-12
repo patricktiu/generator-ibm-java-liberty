@@ -115,7 +115,7 @@
         feature description in IBM Knowledge Center.
       </p>
       {{/has}}
-      {{#has this 'springboot_web'}}
+      {{#has this 'springbootweb'}}
       <h2>Spring Boot with Spring MVC</h2>
       <p>Inside the project there is a application.springboot.web package
         containing two classes:</p>
@@ -124,6 +124,16 @@
         <li><code>LibertyHelloController</code>: A Spring MVC endpoint which you can access at <a href="springbootweb">/springbootweb</a></li>
       </ul>
       <p>There is also a test class named <code>it.springboot.web.HelloControllerTest</code> that will test the Spring MVC endpoint to ensure it is working.</p>
+      {{/has}}
+      {{#has this 'msbuilder'}}
+      <h2>Microservice Builder</h2>
+      <p>
+          Microservice Builder delivers a turnkey solution incorporating a runtime, tooling,
+          DevOps, fabric, and customer-managed container orchestration.
+      </p>
+      <p>
+          See the <a href="https://developer.ibm.com/microservice-builder/">Microservice Builder docs</a> for more details.
+      </p>
       {{/has}}
     {{/technologies}}
     {{#if technologies}}

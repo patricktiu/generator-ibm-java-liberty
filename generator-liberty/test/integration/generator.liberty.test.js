@@ -33,7 +33,7 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(buildType, createType, jndiEntries, envEntries, frameworkDependencies) {
+  constructor(buildType, createType, deployType, jndiEntries, envEntries, frameworkDependencies) {
     super();
     this.conf = {
       headless :  "true",
@@ -41,6 +41,7 @@ class Options extends AssertLiberty {
       buildType : buildType,
       createType : createType,
       promptType : 'prompt:liberty',
+      deployType : deployType,
       technologies : [],
       jndiEntries : jndiEntries,
       envEntries : envEntries,
@@ -65,29 +66,34 @@ class Options extends AssertLiberty {
 }
 
 const buildTypes = ['gradle', 'maven'];
+const deployTypes = ['local', 'bluemix'];
 var jndiEntries = [{name :'jndiName', value:'jndiValue'}];
 var envEntries = [{name: 'envName', value : 'envValue'}];
 var frameworkDependencies = [{"feature" : "testfeature"}];
 
 describe('java liberty generator : Liberty server integration test', function () {
 
-  buildTypes.forEach(type => {
-    describe('Generates server configuration (no technologies) ' + type, function () {
-      var options = new Options(type, 'picnmix', jndiEntries, envEntries, frameworkDependencies);
-      before(options.before.bind(options));
-      options.assertAllFiles(true);
-      options.assertContextRoot(APPNAME);
-      options.assertVersion(type);
-      jndiEntries.forEach(entry => {
-        options.assertJNDI(true, entry.name, entry.value);
-      });
-      envEntries.forEach(entry => {
-        options.assertEnv(true, entry.name, entry.value);
-      });
-      frameworkDependencies.forEach(entry => {
-        options.assertFeature(true, entry.feature);
+  buildTypes.forEach(buildType => {
+    deployTypes.forEach(deployType => {
+      describe('Generates server configuration (no technologies) ' + buildType + ' with deploy type ' + deployType, function () {
+        var options = new Options(buildType, 'picnmix', deployType, jndiEntries, envEntries, frameworkDependencies);
+        before(options.before.bind(options));
+        options.assertAllFiles(true);
+        options.assertContextRoot(APPNAME);
+        options.assertVersion(buildType);
+        options.assertDeployType(deployType, buildType);
+        jndiEntries.forEach(entry => {
+          options.assertJNDI(true, entry.name, entry.value);
+        });
+        envEntries.forEach(entry => {
+          options.assertEnv(true, entry.name, entry.value);
+        });
+        frameworkDependencies.forEach(entry => {
+          options.assertFeature(true, entry.feature);
+        });
       });
     });
+
   })
 
 });
