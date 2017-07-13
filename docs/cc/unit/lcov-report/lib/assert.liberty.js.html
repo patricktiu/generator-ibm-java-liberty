@@ -22,7 +22,7 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>63/63</span>
+        <span class='fraction'>72/72</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
@@ -32,12 +32,12 @@
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>17/17</span>
+        <span class='fraction'>18/18</span>
       </div>
       <div class='fl pad1y space-right2'>
         <span class="strong">100% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>63/63</span>
+        <span class='fraction'>72/72</span>
       </div>
     </div>
   </div>
@@ -164,7 +164,21 @@
 119
 120
 121
-122</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -191,10 +205,12 @@
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
+<span class="cline-any cline-yes">1×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1×</span>
-<span class="cline-any cline-yes">85×</span>
+<span class="cline-any cline-yes">192×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -214,6 +230,18 @@
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-yes">28×</span>
 <span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-yes">28×</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -255,9 +283,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
-<span class="cline-any cline-yes">49×</span>
-<span class="cline-any cline-yes">49×</span>
-<span class="cline-any cline-yes">49×</span>
+<span class="cline-any cline-yes">156×</span>
+<span class="cline-any cline-yes">156×</span>
+<span class="cline-any cline-yes">156×</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">6×</span>
@@ -309,7 +337,9 @@
 const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
+const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
+const JVM_OPTIONS_JAVAAGENT = '-javaagent:../../shared/resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const tests = require('@arf/java-common');
 &nbsp;
@@ -331,11 +361,23 @@ function getBuildCheck(exists, buildType) {
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
     var check = getCheck(exists);
-    it(check.desc + 'server.xml, server.env and ibm-web-ext.xml', function() {
+    it(check.desc + 'server.xml, server.env, jvm.options and ibm-web-ext.xml', function() {
       check.file(SERVER_XML);
       check.file(SERVER_ENV);
       check.file(IBM_WEB_EXT);
+      check.file(JVM_OPTIONS);
     });
+    
+    it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
+        check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
+     });
+    
+    this.assertFeature(true, "jsp-2.3");
+    this.assertFeature(true, "servlet-3.1");
+    this.assertFeature(true, "managedBean-1.0");
+    this.assertFeature(true, "websocket-1.1");
+  
+        
   }
 &nbsp;
   this.assertVersion = function(buildType) {
@@ -412,7 +454,7 @@ module.exports = exports = AssertLiberty;
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Fri Jul 07 2017 10:28:17 GMT+0000 (UTC)
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Jul 13 2017 10:37:06 GMT+0000 (UTC)
 </div>
 </div>
 <script src="../prettify.js"></script>
