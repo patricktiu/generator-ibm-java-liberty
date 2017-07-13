@@ -42,6 +42,9 @@
             {{#if scope}}
             <scope>{{this.scope}}</scope>
             {{/if}}
+            {{#if type}}
+            <type>{{this.type}}</type>
+            {{/if}}
             {{#if exclusions}}
             <exclusions>
               {{#each exclusions}}
