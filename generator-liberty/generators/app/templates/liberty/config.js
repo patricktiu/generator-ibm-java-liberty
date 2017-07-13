@@ -12,6 +12,14 @@
   "dependencies" : [
     {"groupId" : "junit", "artifactId" : "junit", "version" : "4.12", "scope" : "test"},
     {"groupId" : "org.apache.cxf", "artifactId" : "cxf-rt-rs-client", "version" : "3.1.1", "scope" : "test"},
-    {"groupId" : "org.glassfish", "artifactId" : "javax.json", "version" : "1.0.4", "scope" : "test"}
+    {"groupId" : "org.glassfish", "artifactId" : "javax.json", "version" : "1.0.4", "scope" : "test"},
+    {"groupId" : "com.ibm.runtimetools", "artifactId" : "javametrics-agent", "version" : "1.0.0", "scope" : "provided"},
+    {"groupId" : "com.ibm.runtimetools", "artifactId" : "javametrics-dash", "version" : "1.0.0", "scope" : "provided", "type" : "war"}
+  ],
+  "frameworkDependencies" : [
+	  {"feature" : "jsp-2.3"},
+	  {"feature" : "servlet-3.1"},
+	  {"feature" : "managedBean-1.0"},
+	  {"feature" : "websocket-1.1"}
   ]
 }
