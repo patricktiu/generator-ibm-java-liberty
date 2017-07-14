@@ -170,6 +170,10 @@ function AssertTech() {
     tests.test(buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     tests.test(buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
     liberty.assertFeature(false, 'jaxrs-2.0');
+    it('does not generate JAX-RS dependent source files', function() {
+      assert.noFile("src/main/java/application/rest/HealthEndpoint.java");
+      assert.noFile("src/test/java/it/HealthEndpointIT.java");
+    });
   }
   this.asserthealthdeps = function(buildType) {
     tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
