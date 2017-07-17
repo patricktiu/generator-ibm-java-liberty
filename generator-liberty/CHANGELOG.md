@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.1.2"></a>
+## [3.1.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.1.1...v3.1.2) (2017-07-17)
+
+
+### Bug Fixes
+
+* **build:** update java-common to 2.0.2 ([bb5e919](https://github.ibm.com/arf/java-codegen-liberty/commit/bb5e919))
+
+
+
 <a name="3.1.1"></a>
 ## [3.1.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.1.0...v3.1.1) (2017-07-14)
 
