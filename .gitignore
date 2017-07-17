@@ -42,3 +42,6 @@ projects/*
 
 #eclipse
 .project
+
+#vscode
+.vscode
