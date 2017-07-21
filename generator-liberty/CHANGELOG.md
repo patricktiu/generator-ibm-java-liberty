@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="3.2.0"></a>
+# [3.2.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.1.2...v3.2.0) (2017-07-21)
+
+
+### Features
+
+* **health:** re-enable Java app metrics ([8be6667](https://github.ibm.com/arf/java-codegen-liberty/commit/8be6667))
+
+
+
 <a name="3.1.2"></a>
 ## [3.1.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.1.1...v3.1.2) (2017-07-17)
 
