@@ -20,7 +20,8 @@ const defaultModule = require('@arf/java-common').defaults;
 
 const DEFAULTS = {
   technologies : {desc : 'Technologies to configure when using the prompt:liberty promptType', type : (value)=>{return Array.isArray(value) ? value : value.split(",");}, default : ['rest']},
-  deployType : {desc : 'Type of deployment required', type : String, default: 'local'}
+  deployType : {desc : 'Type of deployment required', type : String, default: 'local'},
+  javametrics : {desc : 'Enable java metrics for the project', type : String, default : undefined}
 };
 
 module.exports = class extends defaultModule {

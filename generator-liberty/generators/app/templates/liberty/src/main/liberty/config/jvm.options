@@ -1,2 +1,3 @@
-#-javaagent:../../shared/resources/javametrics-agent.jar
-
+{{#javametrics}}
+-javaagent:../../shared/resources/javametrics-agent.jar
+{{/javametrics}}

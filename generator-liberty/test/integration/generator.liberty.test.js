@@ -33,13 +33,14 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(buildType, createType, deployType, jndiEntries, envEntries, frameworkDependencies) {
+  constructor(buildType, createType, deployType, jndiEntries, envEntries, frameworkDependencies, javametrics) {
     super();
     this.conf = {
       headless :  "true",
       debug : "true",
       buildType : buildType,
       createType : createType,
+      javametrics : javametrics,
       promptType : 'prompt:liberty',
       deployType : deployType,
       technologies : [],
@@ -79,6 +80,7 @@ describe('java liberty generator : Liberty server integration test', function ()
         var options = new Options(buildType, 'picnmix', deployType, jndiEntries, envEntries, frameworkDependencies);
         before(options.before.bind(options));
         options.assertAllFiles(true);
+        options.assertJavaMetrics(false, buildType);
         options.assertContextRoot(APPNAME);
         options.assertVersion(buildType);
         options.assertDeployType(deployType, buildType);
@@ -96,4 +98,11 @@ describe('java liberty generator : Liberty server integration test', function ()
 
   })
 
+});
+
+describe('Generates server configuration (no technologies) maven with deploy type with java metrics', function () {
+  var options = new Options('maven', 'picnmix', 'local', jndiEntries, envEntries, frameworkDependencies, true);
+  before(options.before.bind(options));
+  options.assertAllFiles(true);
+  options.assertJavaMetrics(true, 'maven');
 });
