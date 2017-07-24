@@ -19,7 +19,7 @@
   "frameworkDependencies" : [
 	  {"feature" : "jsp-2.3"},
 	  {"feature" : "servlet-3.1"},
-	  {"feature" : "managedBean-1.0"},
+	  {"feature" : "managedBeans-1.0"},
 	  {"feature" : "websocket-1.1"}
   ]
 }

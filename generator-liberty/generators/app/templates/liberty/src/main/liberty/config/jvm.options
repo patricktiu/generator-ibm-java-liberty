@@ -1,2 +1,2 @@
--javaagent:../../shared/resources/javametrics-agent.jar
+#-javaagent:../../shared/resources/javametrics-agent.jar
 
