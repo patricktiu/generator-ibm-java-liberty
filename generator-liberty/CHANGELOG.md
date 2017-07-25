@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.2.0...v4.0.0) (2017-07-25)
+
+
+### Bug Fixes
+
+* **templates:** Update servlet id to web and websockets id to websocket ([4d48ddd](https://github.ibm.com/arf/java-codegen-liberty/commit/4d48ddd))
+* **templates:** use correct name for java metrics ([0bb6e74](https://github.ibm.com/arf/java-codegen-liberty/commit/0bb6e74))
+
+
+### Features
+
+* **build:** correct managed beans feature name and disable javametrics ([16beaf0](https://github.ibm.com/arf/java-codegen-liberty/commit/16beaf0))
+* **templates:** templates for java metrics and extra tests ([63b2251](https://github.ibm.com/arf/java-codegen-liberty/commit/63b2251))
+
+
+### BREAKING CHANGES
+
+* **templates:** id changes for technologies servlet to web and websockets
+to websocket.
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+* **templates:** this change makes java metrics optional, default being
+not enabled.
+
+Signed off by : Adam Pilkington apilkington@uk.ibm.com
+
+
+
 <a name="3.2.0"></a>
 # [3.2.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.1.2...v3.2.0) (2017-07-21)
 
