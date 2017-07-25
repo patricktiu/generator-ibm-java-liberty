@@ -52,17 +52,27 @@ function AssertLiberty() {
       check.file(IBM_WEB_EXT);
       check.file(JVM_OPTIONS);
     });
-    
-    it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
-        //check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
-     });
-    
-    this.assertFeature(true, "jsp-2.3");
-    this.assertFeature(true, "servlet-3.1");
-    this.assertFeature(true, "managedBean-1.0");
-    this.assertFeature(true, "websocket-1.1");
-  
         
+  }
+
+  this.assertJavaMetrics = function(exists, buildType) {
+    var check = getCheck(exists);
+    var self = this;
+    describe(check.desc + 'javametrics code, dependencies or features', function() {
+      it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
+          check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
+      });
+      
+      self.assertFeature(exists, "jsp-2.3");
+      self.assertFeature(exists, "servlet-3.1");
+      self.assertFeature(exists, "managedBeans-1.0");
+      self.assertFeature(exists, "websocket-1.1");
+
+      var depcheck = exists ? tests.test(buildType).assertDependency : tests.test(buildType).assertNoDependency;
+      depcheck('provided', 'com.ibm.runtimetools', 'javametrics-agent', '1.0.1');
+      depcheck('provided', 'com.ibm.runtimetools', 'javametrics-dash', '1.0.1');
+
+    });
   }
 
   this.assertVersion = function(buildType) {
