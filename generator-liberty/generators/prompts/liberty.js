@@ -104,7 +104,7 @@ Extension.prototype.getQuestions = function() {
     type    : 'confirm',
     name    : 'javametrics',
     message : 'Enable java metrics for your project',
-    default : (answers) => {return answers.appName}
+    default : (answers) => {return answers.javametrics}
   }];
 }
 
