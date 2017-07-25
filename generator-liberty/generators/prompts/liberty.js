@@ -86,7 +86,7 @@ Extension.prototype.getQuestions = function() {
     type : 'checkbox',
     name : 'technologies',
     message : 'Select the technologies for your project.',
-    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websockets'}, {name: 'servlet'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springbootweb'}, {name: 'msbuilder'}],
+    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websocket'}, {name: 'web'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springbootweb'}, {name: 'msbuilder'}],
     validate : function (answer) {
       if (answer.length < 1) {
         return 'You must choose at least one technology.';
@@ -99,6 +99,12 @@ Extension.prototype.getQuestions = function() {
     name : 'addbluemix',
     message : 'Add bluemix to your application?',
     default : false
+  }, {
+    when    : this.show.bind(this),
+    type    : 'confirm',
+    name    : 'javametrics',
+    message : 'Enable java metrics for your project',
+    default : (answers) => {return answers.javametrics}
   }];
 }
 

@@ -112,17 +112,17 @@ function AssertTech() {
     tests.test(buildType).assertDependency('provided', 'org.eclipse.persistence', 'javax.persistence', '2.1.0');
     liberty.assertFeature(true, 'jpa-2.1');
   }
-  this.assertwebsockets = function(buildType) {
-    it('generates an ' + INDEX_HTML + ' file with a websockets section', function() {
+  this.assertwebsocket = function(buildType) {
+    it('generates an ' + INDEX_HTML + ' file with a websocket section', function() {
       assert.fileContent(INDEX_HTML, '<h2>WebSockets</h2>');
     });
-    it('generates a ' + README_MD + ' file with a websockets section', function() {
+    it('generates a ' + README_MD + ' file with a websocket section', function() {
       assert.fileContent(README_MD, '**Websockets**');
     });
     tests.test(buildType).assertDependency('provided', 'javax.websocket', 'javax.websocket-api', '1.1');
     liberty.assertFeature(true, 'websocket-1.1');
   }
-  this.assertservlet = function(buildType) {
+  this.assertweb = function(buildType) {
     it('generates an ' + INDEX_HTML + ' file with a servlet section', function() {
       assert.fileContent(INDEX_HTML, '<h2>Servlet</h2>');
     });
