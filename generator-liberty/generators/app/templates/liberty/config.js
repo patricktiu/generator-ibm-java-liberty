@@ -20,9 +20,9 @@
   ],
   "frameworkDependencies" : [
     {{#javametrics}}
-	  {"feature" : "jsp-2.3"},
-	  {"feature" : "servlet-3.1"},
-	  {"feature" : "managedBeans-1.0"},
+    {"feature" : "jsp-2.3"},
+    {"feature" : "servlet-3.1"},
+    {"feature" : "managedBeans-1.0"},
     {"feature" : "websocket-1.1"}
     {{/javametrics}}
   ]
