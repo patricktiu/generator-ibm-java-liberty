@@ -51,7 +51,7 @@ The context root is set in the `src/main/webapp/WEB-INF/ibm-web-ext.xml` file. T
 * **REST** : Inside the project there is a application.rest package containing the `LibertyRestEndpoint` class. This adds a REST endpoint which you can access at `http://localhost:9080/<context>/rest`. There is also a test class named `it.rest.LibertyRestEndpointTest` that will test the REST endpoint to ensure it is working. For the complete feature documentation, see the [jaxrs-2.0](http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_jaxrs-2.0.html) feature description in IBM Knowledge Center.
 {{/has}}
 
-{{#has technologies 'servlet'}}
+{{#has technologies 'web'}}
 * **Servlet** : Inside the project there is a application.servlet package containing the `LibertyServlet` class. This adds a servlet with an endpoint which you can access at `http://localhost:9080/<context>/servlet`. There is also a test named `it.servlet.LibertyServletTest` that will test the servlet's endpoint to ensure it is working. For the complete feature documentation, see the [servlet-3.1](http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_servlet-3.1.html) feature description in IBM Knowledge Center.
 {{/has}}
 
@@ -71,7 +71,7 @@ There is also a test class named `it.springboot.web.HelloControllerTest` that wi
 * **Watson SDK** : The Watson SDK provides an API for accessing Watson Services. For the complete documentation, take a look at [the Watson developer pages](https://developer.ibm.com/watson/) and [the Watson SDK github project](https://github.com/watson-developer-cloud/java-sdk).
 {{/has}}
 
-{{#has technologies 'websockets'}}
+{{#has technologies 'websocket'}}
 * **Websockets** : For the complete feature documentation, see the [websocket-1.1](http://www.ibm.com/support/knowledgecenter/en/SSEQTP_liberty/com.ibm.websphere.wlp.nd.multiplatform.doc/ae/rwlp_feature_websocket-1.1.html) feature description in IBM Knowledge Center.
 {{/has}}
 
