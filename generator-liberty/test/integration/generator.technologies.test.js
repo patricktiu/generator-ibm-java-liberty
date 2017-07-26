@@ -65,7 +65,7 @@ class Options extends AssertTech {
 
 }
 
-const technologies = ['rest', 'microprofile', 'persistence', 'websockets', 'servlet', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
+const technologies = ['rest', 'microprofile', 'persistence', 'websocket', 'web', 'watsonsdk', 'swagger', 'springbootweb', 'msbuilder'];
 const buildTypes = ['gradle', 'maven'];
 
 execute('picnmix', 'picnmix', technologies);

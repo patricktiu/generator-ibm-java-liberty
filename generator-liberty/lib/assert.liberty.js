@@ -22,6 +22,7 @@
 const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
+const README_MD = 'README.md';
 const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 const JVM_OPTIONS_JAVAAGENT = '-javaagent:../../shared/resources/javametrics-agent.jar';
@@ -118,26 +119,39 @@ function AssertLiberty() {
       check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
-  this.assertDeployType = function(deployType, buildType) {
+  this.assertPlatforms = function(platforms, buildType, appName) {
     describe('checks build steps for deploying to Bluemix', function() {
-      var check = getBuildCheck(deployType === 'bluemix', buildType);
+      var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
+      var check = getCheck(platforms.includes('bluemix'));
       if(buildType === 'gradle') {
-        check.content("cfContext = 'mybluemix.net'");
-        check.content("apply plugin: 'cloudfoundry'");
-        check.content('task checkBluemixPropertiesSet()');
-        check.content("task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet')");
-        check.content('def checkPropertySet(propertyName)');
-        check.content('cloudfoundry {');
-        check.content("cfPush.dependsOn 'printBluemixProperties'");
+        buildCheck.content("cfContext = 'mybluemix.net'");
+        buildCheck.content("apply plugin: 'cloudfoundry'");
+        buildCheck.content('task checkBluemixPropertiesSet()');
+        buildCheck.content("task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet')");
+        buildCheck.content('def checkPropertySet(propertyName)');
+        buildCheck.content('cloudfoundry {');
+        buildCheck.content("cfPush.dependsOn 'printBluemixProperties'");
+        it(check.desc + 'README with gradle deployment instructions', function() {
+          check.content(README_MD, 'gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]');
+        });
       }
       if(buildType === 'maven') {
         var profileContent = '<profile>\\s*<id>bluemix</id>';
         var profileRegex = new RegExp(profileContent);
-        check.content(profileRegex);
+        buildCheck.content(profileRegex);
         var propertyContent = '<cf\.context>mybluemix\.net</cf\.context>';
         var propertyRegex = new RegExp(propertyContent);
-        check.content(propertyRegex);
+        buildCheck.content(propertyRegex);
+        it(check.desc + 'README with maven deployment instructions', function() {
+          check.content(README_MD, 'mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]');
+        });
       }
+      it(check.desc + 'README deployment instructions', function() {
+        check.content(README_MD, '**Create Toolchain** button');
+        check.content(README_MD, 'contains Bluemix specific files');
+        check.content(README_MD, 'To deploy the application to bluemix:');
+        check.content(README_MD, 'The application will be deployed to the following url: [http://' + appName + '.mybluemix.net/' + appName + '/]');
+      });
     });
   }
 }
