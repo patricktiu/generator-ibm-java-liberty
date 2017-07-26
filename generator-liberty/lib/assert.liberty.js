@@ -124,6 +124,7 @@ function AssertLiberty() {
       var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
       var check = getCheck(platforms.includes('bluemix'));
       if(buildType === 'gradle') {
+        buildCheck.content("classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'");
         buildCheck.content("cfContext = 'mybluemix.net'");
         buildCheck.content("apply plugin: 'cloudfoundry'");
         buildCheck.content('task checkBluemixPropertiesSet()');
