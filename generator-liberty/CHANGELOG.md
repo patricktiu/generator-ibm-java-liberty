@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.1"></a>
+## [5.0.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.0.0...v5.0.1) (2017-07-26)
+
+
+### Bug Fixes
+
+* **templates:** Add missing classpath line for cloudfoundry ([cd07794](https://github.ibm.com/arf/java-codegen-liberty/commit/cd07794))
+
+
+
 <a name="5.0.0"></a>
 # [5.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v4.0.0...v5.0.0) (2017-07-26)
 
