@@ -33,7 +33,8 @@ class TechOptions extends AssertTech {
       headless :  "true",
       debug : "true",
       createType : 'picnmix',
-      buildType : buildType
+      buildType : buildType,
+      appName : 'testAppName'
     }
     var ctx = new common.context('test', this.conf, new MockPromptMgr());
     this.options = {
@@ -79,7 +80,7 @@ describe('java liberty generator : defaults integration test', function () {
   describe('Generates a project with default technologies', function () {
     var options = new LibertyOptions('maven');
     before(options.before.bind(options));
-    options.assertDeployType('local', 'maven');
+    options.assertPlatforms([], 'maven', 'testAppName');
   });
 
 });

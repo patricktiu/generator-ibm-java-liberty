@@ -16,7 +16,7 @@
         {{#each properties}}
         <{{this.name}}>{{this.value}}</{{this.name}}>
         {{/each}}
-        {{#has deployType 'bluemix'}}
+        {{#has platforms 'bluemix'}}
         <!-- Cloud Foundry/Bluemix properties -->
         <cf.context>mybluemix.net</cf.context>
         <cf.target>https://api.ng.bluemix.net</cf.target>
@@ -310,7 +310,7 @@
                 </plugins>
             </build>
         </profile>
-        {{#has deployType 'bluemix'}}
+        {{#has platforms 'bluemix'}}
         <profile>
           <id>bluemix</id>
           <build>
