@@ -51,6 +51,12 @@ module.exports = class extends Generator {
   }
 
   writing() {
+    if(this.conf.buildType == 'maven') {
+      this.conf.bxBuildCmd = '`mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]`';
+    }
+    if(this.conf.buildType == 'gradle') {
+      this.conf.bxBuildCmd = '`gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]`';
+    }
     return this.defaultWriter(this);   //use the default writer supplied by the context.
   }
 

@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'war'
 apply plugin: 'liberty'
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 apply plugin: 'cloudfoundry'
 {{/has}}
 
@@ -27,7 +27,7 @@ ext {
     {{#each properties}}
     {{this.name}} = {{{this.value}}}
     {{/each}}
-    {{#has deployType 'bluemix'}}
+    {{#has platforms 'bluemix'}}
     // Cloud Foundry/Bluemix properties
     // This is the host for your app in Bluemix and what it will be called in the dashboard.
     cfHost = appName
@@ -128,7 +128,7 @@ task libertyStartTestServer(type: net.wasdev.wlp.gradle.plugins.tasks.StartTask)
     logging.level = LogLevel.INFO
 }
 
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 task checkBluemixPropertiesSet() {
     doLast {
         checkPropertySet('cfOrg')
@@ -179,7 +179,7 @@ integrationTest.finalizedBy 'libertyStop'
 libertyStartTestServer.dependsOn 'setupServer'
 assemble.dependsOn 'libertyPackage'
 libertyPackage.dependsOn 'setupServer'
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 cfPush.dependsOn 'printBluemixProperties'
 {{/has}}
 libertyStart.finalizedBy 'printMessageAboutRunningServer'

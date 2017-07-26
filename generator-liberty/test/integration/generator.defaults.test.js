@@ -79,7 +79,7 @@ describe('java liberty generator : defaults integration test', function () {
   describe('Generates a project with default technologies', function () {
     var options = new LibertyOptions('maven');
     before(options.before.bind(options));
-    options.assertDeployType('local', 'maven');
+    options.assertPlatforms([], 'maven');
   });
 
 });

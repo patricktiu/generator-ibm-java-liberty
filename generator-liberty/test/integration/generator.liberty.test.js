@@ -33,7 +33,7 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(buildType, createType, deployType, jndiEntries, envEntries, frameworkDependencies, javametrics) {
+  constructor(buildType, createType, platforms, jndiEntries, envEntries, frameworkDependencies, javametrics) {
     super();
     this.conf = {
       headless :  "true",
@@ -42,7 +42,7 @@ class Options extends AssertLiberty {
       createType : createType,
       javametrics : javametrics,
       promptType : 'prompt:liberty',
-      deployType : deployType,
+      platforms : platforms,
       technologies : [],
       jndiEntries : jndiEntries,
       envEntries : envEntries,
@@ -67,7 +67,7 @@ class Options extends AssertLiberty {
 }
 
 const buildTypes = ['gradle', 'maven'];
-const deployTypes = ['local', 'bluemix'];
+const platforms = [[], ['bluemix']];
 var jndiEntries = [{name :'jndiName', value:'jndiValue'}];
 var envEntries = [{name: 'envName', value : 'envValue'}];
 var frameworkDependencies = [{"feature" : "testfeature"}];
@@ -75,15 +75,15 @@ var frameworkDependencies = [{"feature" : "testfeature"}];
 describe('java liberty generator : Liberty server integration test', function () {
 
   buildTypes.forEach(buildType => {
-    deployTypes.forEach(deployType => {
-      describe('Generates server configuration (no technologies) ' + buildType + ' with deploy type ' + deployType, function () {
-        var options = new Options(buildType, 'picnmix', deployType, jndiEntries, envEntries, frameworkDependencies);
+    platforms.forEach(platformArray => {
+      describe('Generates server configuration (no technologies) ' + buildType + ' with platforms ' + platformArray, function () {
+        var options = new Options(buildType, 'picnmix', platformArray, jndiEntries, envEntries, frameworkDependencies);
         before(options.before.bind(options));
         options.assertAllFiles(true);
         options.assertJavaMetrics(false, buildType);
         options.assertContextRoot(APPNAME);
         options.assertVersion(buildType);
-        options.assertDeployType(deployType, buildType);
+        options.assertPlatforms(platformArray, buildType);
         jndiEntries.forEach(entry => {
           options.assertJNDI(true, entry.name, entry.value);
         });
