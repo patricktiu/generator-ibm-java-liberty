@@ -131,7 +131,9 @@ function AssertLiberty() {
         buildCheck.content('def checkPropertySet(propertyName)');
         buildCheck.content('cloudfoundry {');
         buildCheck.content("cfPush.dependsOn 'printBluemixProperties'");
-        check.content(README_MD, 'gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]');
+        it(check.desc + 'README with gradle deployment instructions', function() {
+          check.content(README_MD, 'gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]');
+        });
       }
       if(buildType === 'maven') {
         var profileContent = '<profile>\\s*<id>bluemix</id>';
@@ -140,12 +142,16 @@ function AssertLiberty() {
         var propertyContent = '<cf\.context>mybluemix\.net</cf\.context>';
         var propertyRegex = new RegExp(propertyContent);
         buildCheck.content(propertyRegex);
-        check.content(README_MD, 'mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]');
+        it(check.desc + 'README with maven deployment instructions', function() {
+          check.content(README_MD, 'mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]');
+        });
       }
-      check.content(README_MD, '**Create Toolchain** button');
-      check.content(README_MD, 'contains Bluemix specific files');
-      check.content(README_MD, 'To deploy the application to bluemix:');
-      check.content(README_MD, 'The application will be deployed to the following url: [http://' + appName + '.mybluemix.net/' + appName + '/]');
+      it(check.desc + 'README deployment instructions', function() {
+        check.content(README_MD, '**Create Toolchain** button');
+        check.content(README_MD, 'contains Bluemix specific files');
+        check.content(README_MD, 'To deploy the application to bluemix:');
+        check.content(README_MD, 'The application will be deployed to the following url: [http://' + appName + '.mybluemix.net/' + appName + '/]');
+      });
     });
   }
 }
