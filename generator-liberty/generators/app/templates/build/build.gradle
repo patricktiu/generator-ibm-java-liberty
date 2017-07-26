@@ -8,6 +8,7 @@ buildscript {
     dependencies {
         classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0'
         classpath files('gradle/wlp-anttasks.jar')
+        classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'
     }
 }
 
