@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.0"></a>
+# [5.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v4.0.0...v5.0.0) (2017-07-26)
+
+
+### Bug Fixes
+
+* **test:** put README tests in mocha 'it' block ([98c55d9](https://github.ibm.com/arf/java-codegen-liberty/commit/98c55d9))
+
+
+### Features
+
+* **templates:** Add platforms as config ([a06a823](https://github.ibm.com/arf/java-codegen-liberty/commit/a06a823))
+
+
+### BREAKING CHANGES
+
+* **templates:** deployType config removed
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v3.2.0...v4.0.0) (2017-07-25)
 
