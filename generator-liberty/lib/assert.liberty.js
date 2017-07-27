@@ -93,6 +93,18 @@ function AssertLiberty() {
     });
   }
 
+  this.assertArtifactID = function(buildType, id) {
+    var check = getBuildCheck(true, buildType);
+    if(buildType === 'gradle') {
+      it('settings.gradle contains root project setting of ' + id, function() {
+        assert.fileContent('settings.gradle', 'rootProject.name = \'' + id + '\'');
+      });
+    }
+    if(buildType === 'maven') {
+      check.content('<artifactId>' + id + '</artifactId>');
+    }
+  }
+
   this.assertJNDI = function(exists, name, value) {
     var check = getCheck(exists);
     it(check.desc + 'a server.xml JDNI entry for ' + name + " = " + value, function() {
