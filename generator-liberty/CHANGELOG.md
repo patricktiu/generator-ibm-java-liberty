@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.0.2"></a>
+## [5.0.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.0.1...v5.0.2) (2017-07-27)
+
+
+### Bug Fixes
+
+* **templates:** #65 - Update artifactID setting ([0143b04](https://github.ibm.com/arf/java-codegen-liberty/commit/0143b04))
+* **test:** add tests for artifactId and appName override ([ef26643](https://github.ibm.com/arf/java-codegen-liberty/commit/ef26643))
+
+
+
 <a name="5.0.1"></a>
 ## [5.0.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.0.0...v5.0.1) (2017-07-26)
 
