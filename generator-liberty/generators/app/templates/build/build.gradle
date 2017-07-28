@@ -106,7 +106,11 @@ task createServerBootstrap() {
 
 liberty {
     install {
+        {{#libertybeta}}
+        version = "2017.+"
+        {{else}}
         runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/17.0.0.1/wlp-webProfile7-17.0.0.1.zip"
+        {{/libertybeta}}
     }
     {{#has createType 'bff'}}
     features {
