@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.0"></a>
+# [5.1.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.0.2...v5.1.0) (2017-07-28)
+
+
+### Features
+
+* **templates:** Add libertybeta option to templates ([964d08a](https://github.ibm.com/arf/java-codegen-liberty/commit/964d08a))
+* **templates:** Set default libertybeta to undefined ([cad8ca2](https://github.ibm.com/arf/java-codegen-liberty/commit/cad8ca2))
+
+
+
 <a name="5.0.2"></a>
 ## [5.0.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.0.1...v5.0.2) (2017-07-27)
 
