@@ -166,12 +166,19 @@
                 <version>1.2</version>
                 <extensions>true</extensions>
                 <configuration>
+                    {{#libertybeta}}
+                    <install>
+                        <type>webProfile7</type>
+                        <version>2017.+</version>
+                    </install>
+                    {{else}}
                     <assemblyArtifact>
                         <groupId>com.ibm.websphere.appserver.runtime</groupId>
                         <artifactId>wlp-webProfile7</artifactId>
                         <version>17.0.0.1</version>
                         <type>zip</type>
                     </assemblyArtifact>
+                    {{/libertybeta}}
                     <configFile>${basedir}/src/main/liberty/config/server.xml</configFile>
                     <serverEnv>${basedir}/src/main/liberty/config/server.env</serverEnv>
                     <jvmOptionsFile>${basedir}/src/main/liberty/config/jvm.options</jvmOptionsFile>

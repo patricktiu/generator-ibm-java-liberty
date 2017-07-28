@@ -27,6 +27,7 @@ const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 const JVM_OPTIONS_JAVAAGENT = '-javaagent:../../shared/resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const LIBERTY_BETA_VERSION = '2017.+';   //current Liberty beta version to check for
 const tests = require('@arf/java-common');
 
 //handy function for checking both existence and non-existence
@@ -76,19 +77,31 @@ function AssertLiberty() {
     });
   }
 
-  this.assertVersion = function(buildType) {
+  this.assertVersion = function(buildType, libertybeta) {
     describe('contains Liberty version ' + LIBERTY_VERSION, function() {
       var check = getBuildCheck(true, buildType);
-      if(buildType === 'gradle') {
-        check.content('wlp-webProfile7-' + LIBERTY_VERSION);
-      }
-      if(buildType === 'maven') {
-        var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
-        var artifactId = 'wlp-webProfile7';
-        var version = LIBERTY_VERSION.replace(/\./g, '\\.');
-        var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
-        var regex = new RegExp(content);
-        check.content(regex);
+      if(libertybeta) {
+        if(buildType === 'gradle') {
+          check.content('version = "' + LIBERTY_BETA_VERSION + '"');
+        }
+        if(buildType === 'maven') {
+          var betaVersion = LIBERTY_BETA_VERSION.replace(/\./g, '\\.').replace(/\+/g, '\\+');
+          var betaContent = '<install>\\s*<type>webProfile7</type>\\s*<version>' + betaVersion + '</version>\\s*</install>';
+          var betaRegex = new RegExp(betaContent);
+          check.content(betaRegex);
+        }
+      } else {
+        if(buildType === 'gradle') {
+          check.content('wlp-webProfile7-' + LIBERTY_VERSION);
+        }
+        if(buildType === 'maven') {
+          var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
+          var artifactId = 'wlp-webProfile7';
+          var version = LIBERTY_VERSION.replace(/\./g, '\\.');
+          var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
+          var regex = new RegExp(content);
+          check.content(regex);
+        }
       }
     });
   }
