@@ -104,7 +104,7 @@ Extension.prototype.getQuestions = function() {
     type : 'confirm',
     name : 'libertybeta',
     message : 'Install latest beta version of Liberty?',
-    default : false
+    default : (answers) => {return answers.libertybeta}
   }, {
     when    : this.show.bind(this),
     type    : 'confirm',
