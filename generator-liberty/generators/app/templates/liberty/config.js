@@ -11,7 +11,7 @@
   ],
   "dependencies" : [
     {"groupId" : "junit", "artifactId" : "junit", "version" : "4.12", "scope" : "test"},
-    {"groupId" : "org.apache.cxf", "artifactId" : "cxf-rt-rs-client", "version" : "3.1.1", "scope" : "test"},
+    {"groupId" : "org.apache.cxf", "artifactId" : "cxf-rt-rs-client", "version" : "3.1.11", "scope" : "test"},
     {"groupId" : "org.glassfish", "artifactId" : "javax.json", "version" : "1.0.4", "scope" : "test"},
     {{#javametrics}}
     {"groupId" : "com.ibm.runtimetools", "artifactId" : "javametrics-agent", "version" : "1.0.1", "scope" : "provided"},
