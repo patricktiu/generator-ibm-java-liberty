@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.1.2"></a>
+## [5.1.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.1.0...v5.1.2) (2017-08-02)
+
+
+### Bug Fixes
+
+* **infrastructure:** update ossc scan with new tool ([20c8b05](https://github.ibm.com/arf/java-codegen-liberty/commit/20c8b05))
+* **templates:** Update template test dependency version ([2ea8ca7](https://github.ibm.com/arf/java-codegen-liberty/commit/2ea8ca7))
+
+
+
 <a name="5.1.1"></a>
 ## [5.1.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.1.0...v5.1.1) (2017-07-31)
 
