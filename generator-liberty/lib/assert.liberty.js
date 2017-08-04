@@ -24,7 +24,7 @@ const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
 const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
-const JVM_OPTIONS_JAVAAGENT = '-javaagent:../../shared/resources/javametrics-agent.jar';
+const JVM_OPTIONS_JAVAAGENT = '-javaagent:resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
 const tests = require('@arf/java-common');
 
@@ -52,7 +52,7 @@ function AssertLiberty() {
       check.file(IBM_WEB_EXT);
       check.file(JVM_OPTIONS);
     });
-        
+
   }
 
   this.assertJavaMetrics = function(exists, buildType) {
@@ -62,7 +62,7 @@ function AssertLiberty() {
       it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
           check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
       });
-      
+
       self.assertFeature(exists, "jsp-2.3");
       self.assertFeature(exists, "servlet-3.1");
       self.assertFeature(exists, "managedBeans-1.0");
