@@ -33,7 +33,7 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(buildType, createType, deployType, jndiEntries, envEntries, frameworkDependencies, javametrics) {
+  constructor(buildType, createType, platforms, jndiEntries, envEntries, frameworkDependencies, javametrics, artifactId, libertybeta) {
     super();
     this.conf = {
       headless :  "true",
@@ -42,15 +42,16 @@ class Options extends AssertLiberty {
       createType : createType,
       javametrics : javametrics,
       promptType : 'prompt:liberty',
-      deployType : deployType,
+      platforms : platforms,
       technologies : [],
       jndiEntries : jndiEntries,
       envEntries : envEntries,
       frameworkDependencies :frameworkDependencies,
       appName : APPNAME,
       groupId : GROUPID,
-      artifactId : ARTIFACTID,
-      version : VERSION
+      artifactId : artifactId,
+      version : VERSION,
+      libertybeta : libertybeta
     }
     var ctx = new common.context('test', this.conf, new MockPromptMgr());
     this.options = {
@@ -67,7 +68,7 @@ class Options extends AssertLiberty {
 }
 
 const buildTypes = ['gradle', 'maven'];
-const deployTypes = ['local', 'bluemix'];
+const platforms = [[], ['bluemix']];
 var jndiEntries = [{name :'jndiName', value:'jndiValue'}];
 var envEntries = [{name: 'envName', value : 'envValue'}];
 var frameworkDependencies = [{"feature" : "testfeature"}];
@@ -75,15 +76,15 @@ var frameworkDependencies = [{"feature" : "testfeature"}];
 describe('java liberty generator : Liberty server integration test', function () {
 
   buildTypes.forEach(buildType => {
-    deployTypes.forEach(deployType => {
-      describe('Generates server configuration (no technologies) ' + buildType + ' with deploy type ' + deployType, function () {
-        var options = new Options(buildType, 'picnmix', deployType, jndiEntries, envEntries, frameworkDependencies);
+    platforms.forEach(platformArray => {
+      describe('Generates server configuration (no technologies) ' + buildType + ' with platforms ' + platformArray, function () {
+        var options = new Options(buildType, 'picnmix', platformArray, jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, false);
         before(options.before.bind(options));
         options.assertAllFiles(true);
         options.assertJavaMetrics(false, buildType);
         options.assertContextRoot(APPNAME);
-        options.assertVersion(buildType);
-        options.assertDeployType(deployType, buildType);
+        options.assertVersion(buildType, false);
+        options.assertPlatforms(platformArray, buildType, APPNAME);
         jndiEntries.forEach(entry => {
           options.assertJNDI(true, entry.name, entry.value);
         });
@@ -96,12 +97,29 @@ describe('java liberty generator : Liberty server integration test', function ()
       });
     });
 
+    describe('Check artifact id for ' + buildType, function () {
+      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, false);
+      before(options.before.bind(options));
+      options.assertArtifactID(buildType, options.conf.artifactId);
+    });
+
+    describe('Check appName overrides artifact id for ' + buildType, function () {
+      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, undefined, false);
+      before(options.before.bind(options));
+      options.assertArtifactID(buildType, options.conf.appName);
+    });
+
+    describe('Generates correct build config when libertybeta is set to true', function() {
+      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, true)
+      before(options.before.bind(options));
+      options.assertVersion(buildType, true);
+    });
   })
 
 });
 
 describe('Generates server configuration (no technologies) maven with deploy type with java metrics', function () {
-  var options = new Options('maven', 'picnmix', 'local', jndiEntries, envEntries, frameworkDependencies, true);
+  var options = new Options('maven', 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, true, ARTIFACTID, false);
   before(options.before.bind(options));
   options.assertAllFiles(true);
   options.assertJavaMetrics(true, 'maven');

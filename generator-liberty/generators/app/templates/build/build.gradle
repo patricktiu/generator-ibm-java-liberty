@@ -8,12 +8,15 @@ buildscript {
     dependencies {
         classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:1.0'
         classpath files('gradle/wlp-anttasks.jar')
+        {{#has platforms 'bluemix'}}
+        classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'
+        {{/has}}
     }
 }
 
 apply plugin: 'war'
 apply plugin: 'liberty'
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 apply plugin: 'cloudfoundry'
 {{/has}}
 
@@ -27,7 +30,7 @@ ext {
     {{#each properties}}
     {{this.name}} = {{{this.value}}}
     {{/each}}
-    {{#has deployType 'bluemix'}}
+    {{#has platforms 'bluemix'}}
     // Cloud Foundry/Bluemix properties
     // This is the host for your app in Bluemix and what it will be called in the dashboard.
     cfHost = appName
@@ -103,7 +106,11 @@ task createServerBootstrap() {
 
 liberty {
     install {
+        {{#libertybeta}}
+        version = "2017.+"
+        {{else}}
         runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/17.0.0.1/wlp-webProfile7-17.0.0.1.zip"
+        {{/libertybeta}}
     }
     {{#has createType 'bff'}}
     features {
@@ -128,7 +135,7 @@ task libertyStartTestServer(type: net.wasdev.wlp.gradle.plugins.tasks.StartTask)
     logging.level = LogLevel.INFO
 }
 
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 task checkBluemixPropertiesSet() {
     doLast {
         checkPropertySet('cfOrg')
@@ -179,7 +186,7 @@ integrationTest.finalizedBy 'libertyStop'
 libertyStartTestServer.dependsOn 'setupServer'
 assemble.dependsOn 'libertyPackage'
 libertyPackage.dependsOn 'setupServer'
-{{#has deployType 'bluemix'}}
+{{#has platforms 'bluemix'}}
 cfPush.dependsOn 'printBluemixProperties'
 {{/has}}
 libertyStart.finalizedBy 'printMessageAboutRunningServer'

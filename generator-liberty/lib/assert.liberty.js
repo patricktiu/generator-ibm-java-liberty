@@ -22,10 +22,12 @@
 const assert = require('yeoman-assert');
 const SERVER_XML = 'src/main/liberty/config/server.xml';
 const SERVER_ENV = 'src/main/liberty/config/server.env';
+const README_MD = 'README.md';
 const JVM_OPTIONS = 'src/main/liberty/config/jvm.options';
 const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 const JVM_OPTIONS_JAVAAGENT = '-javaagent:resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.1';   //current Liberty version to check for
+const LIBERTY_BETA_VERSION = '2017.+';   //current Liberty beta version to check for
 const tests = require('@arf/java-common');
 
 //handy function for checking both existence and non-existence
@@ -75,21 +77,45 @@ function AssertLiberty() {
     });
   }
 
-  this.assertVersion = function(buildType) {
+  this.assertVersion = function(buildType, libertybeta) {
     describe('contains Liberty version ' + LIBERTY_VERSION, function() {
       var check = getBuildCheck(true, buildType);
-      if(buildType === 'gradle') {
-        check.content('wlp-webProfile7-' + LIBERTY_VERSION);
-      }
-      if(buildType === 'maven') {
-        var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
-        var artifactId = 'wlp-webProfile7';
-        var version = LIBERTY_VERSION.replace(/\./g, '\\.');
-        var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
-        var regex = new RegExp(content);
-        check.content(regex);
+      if(libertybeta) {
+        if(buildType === 'gradle') {
+          check.content('version = "' + LIBERTY_BETA_VERSION + '"');
+        }
+        if(buildType === 'maven') {
+          var betaVersion = LIBERTY_BETA_VERSION.replace(/\./g, '\\.').replace(/\+/g, '\\+');
+          var betaContent = '<install>\\s*<type>webProfile7</type>\\s*<version>' + betaVersion + '</version>\\s*</install>';
+          var betaRegex = new RegExp(betaContent);
+          check.content(betaRegex);
+        }
+      } else {
+        if(buildType === 'gradle') {
+          check.content('wlp-webProfile7-' + LIBERTY_VERSION);
+        }
+        if(buildType === 'maven') {
+          var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
+          var artifactId = 'wlp-webProfile7';
+          var version = LIBERTY_VERSION.replace(/\./g, '\\.');
+          var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
+          var regex = new RegExp(content);
+          check.content(regex);
+        }
       }
     });
+  }
+
+  this.assertArtifactID = function(buildType, id) {
+    var check = getBuildCheck(true, buildType);
+    if(buildType === 'gradle') {
+      it('settings.gradle contains root project setting of ' + id, function() {
+        assert.fileContent('settings.gradle', 'rootProject.name = \'' + id + '\'');
+      });
+    }
+    if(buildType === 'maven') {
+      check.content('<artifactId>' + id + '</artifactId>');
+    }
   }
 
   this.assertJNDI = function(exists, name, value) {
@@ -118,26 +144,40 @@ function AssertLiberty() {
       check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
-  this.assertDeployType = function(deployType, buildType) {
+  this.assertPlatforms = function(platforms, buildType, appName) {
     describe('checks build steps for deploying to Bluemix', function() {
-      var check = getBuildCheck(deployType === 'bluemix', buildType);
+      var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
+      var check = getCheck(platforms.includes('bluemix'));
       if(buildType === 'gradle') {
-        check.content("cfContext = 'mybluemix.net'");
-        check.content("apply plugin: 'cloudfoundry'");
-        check.content('task checkBluemixPropertiesSet()');
-        check.content("task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet')");
-        check.content('def checkPropertySet(propertyName)');
-        check.content('cloudfoundry {');
-        check.content("cfPush.dependsOn 'printBluemixProperties'");
+        buildCheck.content("classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'");
+        buildCheck.content("cfContext = 'mybluemix.net'");
+        buildCheck.content("apply plugin: 'cloudfoundry'");
+        buildCheck.content('task checkBluemixPropertiesSet()');
+        buildCheck.content("task printBluemixProperties(dependsOn: 'checkBluemixPropertiesSet')");
+        buildCheck.content('def checkPropertySet(propertyName)');
+        buildCheck.content('cloudfoundry {');
+        buildCheck.content("cfPush.dependsOn 'printBluemixProperties'");
+        it(check.desc + 'README with gradle deployment instructions', function() {
+          check.content(README_MD, 'gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]');
+        });
       }
       if(buildType === 'maven') {
         var profileContent = '<profile>\\s*<id>bluemix</id>';
         var profileRegex = new RegExp(profileContent);
-        check.content(profileRegex);
+        buildCheck.content(profileRegex);
         var propertyContent = '<cf\.context>mybluemix\.net</cf\.context>';
         var propertyRegex = new RegExp(propertyContent);
-        check.content(propertyRegex);
+        buildCheck.content(propertyRegex);
+        it(check.desc + 'README with maven deployment instructions', function() {
+          check.content(README_MD, 'mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]');
+        });
       }
+      it(check.desc + 'README deployment instructions', function() {
+        check.content(README_MD, '**Create Toolchain** button');
+        check.content(README_MD, 'contains Bluemix specific files');
+        check.content(README_MD, 'To deploy the application to bluemix:');
+        check.content(README_MD, 'The application will be deployed to the following url: [http://' + appName + '.mybluemix.net/' + appName + '/]');
+      });
     });
   }
 }

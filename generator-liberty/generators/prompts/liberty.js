@@ -100,6 +100,12 @@ Extension.prototype.getQuestions = function() {
     message : 'Add bluemix to your application?',
     default : false
   }, {
+    when : this.show.bind(this),
+    type : 'confirm',
+    name : 'libertybeta',
+    message : 'Install latest beta version of Liberty?',
+    default : (answers) => {return answers.libertybeta}
+  }, {
     when    : this.show.bind(this),
     type    : 'confirm',
     name    : 'javametrics',
