@@ -20,6 +20,7 @@ const fspath = require('path');
 const fs = require('fs');
 const extend = require('extend');
 const Defaults = require('../../lib/defaults');
+const OpenApi = require('../../lib/openapi');
 
 var defaults = new Defaults();
 
@@ -35,6 +36,7 @@ module.exports = class extends Generator {
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
     this.conf.addMissing(opts, defaults);
+    this.openApiDir = undefined;
     this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 
@@ -48,6 +50,14 @@ module.exports = class extends Generator {
 
   configuring() {
     this.configure(this);
+    this.openApiDir = undefined;
+    if(this.conf.bluemix && this.conf.bluemix.openApiServers) {
+      var doc = this.conf.bluemix.openApiServers[0];
+      return OpenApi.generate(doc.spec)
+        .then(sdk => {
+          this.openApiDir = sdk;
+        });
+    }
   }
 
   writing() {
@@ -56,6 +66,9 @@ module.exports = class extends Generator {
     }
     if(this.conf.buildType == 'gradle') {
       this.conf.bxBuildCmd = '`gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]`';
+    }
+    if(this.openApiDir) {
+      OpenApi.writeFiles(this.openApiDir, this);
     }
     return this.defaultWriter(this);   //use the default writer supplied by the context.
   }
