@@ -153,6 +153,12 @@ function AssertTech() {
     tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
     tests.test(buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
     liberty.assertFeature(true, 'apiDiscovery-1.0');
+    if(buildType === 'maven') {
+      tests.test(buildType).assertContent('<feature>apiDiscovery-1.0</feature>')
+    }
+    if(buildType === 'gradle') {
+      tests.test(buildType).assertContent("name = ['apiDiscovery-1.0']");
+    }
   }
   this.assertspringbootweb = function(buildType) {
     it('generates an' + INDEX_HTML + ' file with a Spring Boot section', function() {
