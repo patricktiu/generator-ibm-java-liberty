@@ -24,6 +24,7 @@ const AssertOpenApi = require('../../lib/assert.openapi');
 const MockPromptMgr = require('../mocks/mock.promptmgr');
 const common = require('@arf/java-common');
 const openapidoc = require('../resources/basicswagger.json');
+const openapidoc1 = require('../resources/basicswagger1.json');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
@@ -61,18 +62,22 @@ class Options extends AssertOpenApi {
   }
 }
 
-const buildTypes = ['gradle'/*, 'maven'*/];
+const buildTypes = ['gradle', 'maven'];
 
 describe('java liberty generator : Liberty server integration test', function () {
   this.timeout('40000');
   buildTypes.forEach(buildType => {
     describe('generate project without openapi code with buildType ' + buildType, function () {
-      var options = new Options(buildType, 'basic/liberty');
+      var bluemix = {
+          "backendPlatform" : "JAVA"
+      }
+      var options = new Options(buildType, 'basic/liberty', bluemix);
       before(options.before.bind(options));
-      options.assert(false);
+      options.assert(false, []);
     });
     describe('generate project with openapi code with buildType ' + buildType, function () {
       var bluemix = {
+          "backendPlatform" : "JAVA",
           "openApiServers" : [
               {
                   "spec" : JSON.stringify(openapidoc)
@@ -81,7 +86,39 @@ describe('java liberty generator : Liberty server integration test', function ()
       }
       var options = new Options(buildType, 'basic/liberty', bluemix);
       before(options.before.bind(options));
-      options.assert(true);
+      options.assert(true, ['example']);
+    });
+    describe('generate project with two identical openapi code docs with buildType ' + buildType, function () {
+      var bluemix = {
+          "backendPlatform" : "JAVA",
+          "openApiServers" : [
+              {
+                  "spec" : JSON.stringify(openapidoc)
+              },
+              {
+                  "spec" : JSON.stringify(openapidoc)
+              }
+          ]
+      }
+      var options = new Options(buildType, 'basic/liberty', bluemix);
+      before(options.before.bind(options));
+      options.assert(true, ['example']);
+    });
+      describe('generate project with two different openapi code docs with buildType ' + buildType, function () {
+      var bluemix = {
+          "backendPlatform" : "JAVA",
+          "openApiServers" : [
+              {
+                  "spec" : JSON.stringify(openapidoc)
+              },
+              {
+                  "spec" : JSON.stringify(openapidoc1)
+              }
+          ]
+      }
+      var options = new Options(buildType, 'basic/liberty', bluemix);
+      before(options.before.bind(options));
+      options.assert(true, ['example', 'example1']);
     });
   });
 })

@@ -20,7 +20,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
-const appAccUrl = 'http://localhost:9082';
+const appAccUrl = 'https://liberty-app-accelerator.wasdev.developer.ibm.com';
 const appAccEndpoint = appAccUrl + '/start/api/v1';
 const appAccSwagger = appAccUrl + '/swagger/api/v1/provider';
 const unzip = require('unzip2');
@@ -29,7 +29,24 @@ const Promise = require('bluebird');
 const requestAsync = Promise.promisify(request);
 Promise.promisifyAll(request);
 
-var generate = function(doc) {
+var generate = function(docs) {
+    var openApiDir = [];
+    var p = new Promise((resolve, reject) => {
+        var i = 0;
+        docs.forEach(doc => {
+            generateFromDoc(doc.spec)
+            .then(sdk => {
+                openApiDir.push(sdk);
+                if (++i === docs.length) {
+                resolve(openApiDir);
+                }
+            });
+        });
+    });
+    return p;
+}
+
+var generateFromDoc = function(doc) {
     const { sep } = require('path');
     var tempDir = fs.mkdtempSync(os.tmpDir() + sep);
     var id = undefined;
@@ -59,7 +76,7 @@ var getGeneratedContent = function(id) {
       url: appAccEndpoint + '/workspace/files?workspace=' + id + '&serviceId=swagger&dir=server'
     })
     .on('error', err => {
-      reject(new Error('Getting server SDK failed with error: ', err.message))
+      reject(new Error('Getting files from app accelerator failed with: ', err.message))
     })
     .pipe(unzip.Extract({ path: tempDir }))
     .on('close', () => {
@@ -74,8 +91,10 @@ var getWorkspaceID = function() {
     });
 }
 
-var writeFiles = function(tempDir, generator) {
-    generator.fs.copy(path.join(tempDir, 'swagger', 'server', 'src'), generator.destinationPath('src'));
+var writeFiles = function(dirs, generator) {
+    dirs.forEach(tempDir => {
+        generator.fs.copy(path.join(tempDir, 'swagger', 'server', 'src'), generator.destinationPath('src'));
+    });
 }
 
 module.exports = {

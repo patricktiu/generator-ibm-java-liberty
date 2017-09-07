@@ -20,15 +20,32 @@
 'use strict';
 
 const assert = require('yeoman-assert');
+const example = require('../test/resources/basicswagger.json');
+const example1 = require('../test/resources/basicswagger1.json');
 
 function AssertOpenApi() {
-    this.assert = function(exists) {
+    this.assert = function(exists, examples) {
         var check = exists ? assert.file : assert.noFile;
         var desc = exists ? 'creates openapi files' : 'does not create openapi files';
-        it(desc, function() {
-            check(['src/main/java/io/swagger/model/CollectiveInfo.java', 'src/main/java/io/swagger/api/IbmApi.java']);
-            assert.noFile('src/main/java/io/swagger/api/RestApplication.java');
-        });
+        if(examples.includes('example')) {
+            it(desc, function() {
+                check(['src/main/java/io/swagger/model/CollectiveInfo.java', 'src/main/java/io/swagger/api/IbmApi.java']);
+                assert.noFile('src/main/java/io/swagger/api/RestApplication.java');
+            });
+        }
+        if(examples.includes('example1')) {
+            it(desc, function() {
+                check(['src/main/java/io/swagger/model/Pet1.java', 'src/main/java/io/swagger/api/Pets1Api.java']);
+                assert.noFile('src/main/java/io/swagger/api/RestApplication.java');
+            });
+        }
+    }
+
+    this.getExample = function() {
+        return {name: 'example', value: example};
+    }
+    this.getExample1 = function() {
+        return {name: 'example1', value: example1};
     }
 }
 

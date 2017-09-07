@@ -36,7 +36,8 @@ module.exports = class extends Generator {
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
     this.conf.addMissing(opts, defaults);
-    this.openApiDir = undefined;
+    this.openApiDir = [];
+    this.conf.enableApiDiscovery = this.config.enableApiDiscovery || false;
     this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 
@@ -50,12 +51,15 @@ module.exports = class extends Generator {
 
   configuring() {
     this.configure(this);
-    this.openApiDir = undefined;
-    if(this.conf.bluemix && this.conf.bluemix.openApiServers) {
-      var doc = this.conf.bluemix.openApiServers[0];
-      return OpenApi.generate(doc.spec)
-        .then(sdk => {
-          this.openApiDir = sdk;
+    if(this.conf.technologies.includes('swagger')) {
+      this.conf.enableApiDiscovery = true;
+    }
+    this.openApiDir = [];
+    if(this.conf.bluemix && this.conf.bluemix.openApiServers && this.conf.bluemix.backendPlatform == 'JAVA' ) {
+      this.conf.enableApiDiscovery = true;
+      return OpenApi.generate(this.conf.bluemix.openApiServers)
+        .then(dir => {
+          this.openApiDir = dir;
         });
     }
   }
@@ -67,7 +71,7 @@ module.exports = class extends Generator {
     if(this.conf.buildType == 'gradle') {
       this.conf.bxBuildCmd = '`gradle build cfPush -PcfOrg=[your email address] -PcfUsername=[your username] -PcfPassword=[your password]`';
     }
-    if(this.openApiDir) {
+    if(this.openApiDir.length > 0) {
       OpenApi.writeFiles(this.openApiDir, this);
     }
     return this.defaultWriter(this);   //use the default writer supplied by the context.
