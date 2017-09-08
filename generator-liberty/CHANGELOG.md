@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.3.0"></a>
+# [5.3.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.2.0...v5.3.0) (2017-09-08)
+
+
+### Features
+
+* **templates:** Add call to app accelerator for open api ([c9f22cd](https://github.ibm.com/arf/java-codegen-liberty/commit/c9f22cd))
+* **templates:** Add tests for multiple open api spec docs ([1e6becd](https://github.ibm.com/arf/java-codegen-liberty/commit/1e6becd))
+
+
+
 <a name="5.2.0"></a>
 # [5.2.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.1.2...v5.2.0) (2017-08-25)
 
