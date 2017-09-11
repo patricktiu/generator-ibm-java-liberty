@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.3.1"></a>
+## [5.3.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.0...v5.3.1) (2017-09-11)
+
+
+### Bug Fixes
+
+* **templates:** Move api spec resources to resources folder ([684b1f4](https://github.ibm.com/arf/java-codegen-liberty/commit/684b1f4))
+
+
+
 <a name="5.3.0"></a>
 # [5.3.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.2.0...v5.3.0) (2017-09-08)
 
