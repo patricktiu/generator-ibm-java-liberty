@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.3.3"></a>
+## [5.3.3](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.2...v5.3.3) (2017-09-18)
+
+
+### Bug Fixes
+
+* **templates:** update bff pattern name and add test function to check for tags in server.xml ([54e58f0](https://github.ibm.com/arf/java-codegen-liberty/commit/54e58f0))
+
+
+
 <a name="5.3.2"></a>
 ## [5.3.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.1...v5.3.2) (2017-09-13)
 
