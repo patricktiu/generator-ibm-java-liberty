@@ -9,7 +9,7 @@
   <httpEndpoint httpPort="${default.http.port}" httpsPort="${default.https.port}"
       id="defaultHttpEndpoint" host="*" />
 
-  {{#has createType 'bff'}}
+  {{#has createType 'bff/liberty'}}
   <keyStore id="defaultKeyStore"/>
 
   <basicRegistry id="basic" realm="ibm/api">
