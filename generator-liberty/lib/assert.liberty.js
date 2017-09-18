@@ -144,6 +144,15 @@ function AssertLiberty() {
       check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
+
+  this.assertConfig = function(exists, name) {
+    var check = getCheck(exists);
+    it(SERVER_XML + ' ' + check.desc + 'a tag for ' + name, function() {
+      //look for the closing tag as that will not contain optional attiributes
+      check.content(SERVER_XML, "</" + name + ">");
+    });
+  }
+
   this.assertPlatforms = function(platforms, buildType, appName) {
     describe('checks build steps for deploying to Bluemix', function() {
       var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
