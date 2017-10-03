@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="5.4.0"></a>
+# [5.4.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.3...v5.4.0) (2017-10-03)
+
+
+### Features
+
+* **templates:** Update Liberty version to 17.0.0.2 ([a1d7e43](https://github.ibm.com/arf/java-codegen-liberty/commit/a1d7e43))
+* **templates:** Update liberty-maven-plugin version to 2.0 ([7a4a9cb](https://github.ibm.com/arf/java-codegen-liberty/commit/7a4a9cb))
+
+
+
 <a name="5.3.3"></a>
 ## [5.3.3](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.2...v5.3.3) (2017-09-18)
 
