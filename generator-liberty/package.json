@@ -1,6 +1,6 @@
 {
   "name": "@arf/generator-liberty",
-  "version": "5.3.3",
+  "version": "5.4.0",
   "description": "Liberty and Java EE code generation and modification",
   "license": "Apache-2.0",
   "main": "index.js",
