@@ -25,7 +25,7 @@ const AssertLiberty = require('../../lib/assert.liberty');
 const MockPromptMgr = require('../mocks/mock.promptmgr');
 const common = require('@arf/java-common');
 
-const ARTIFACTID = 'artifact.0.1';
+const ARTIFACTID = 'artifact';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
@@ -84,6 +84,7 @@ describe('java liberty generator : Liberty server integration test', function ()
         options.assertJavaMetrics(false, buildType);
         options.assertContextRoot(APPNAME);
         options.assertVersion(buildType, false);
+        options.assertProperties(buildType, ARTIFACTID);
         options.assertPlatforms(platformArray, buildType, APPNAME);
         jndiEntries.forEach(entry => {
           options.assertJNDI(true, entry.name, entry.value);
