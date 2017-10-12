@@ -84,7 +84,7 @@ describe('java liberty generator : Liberty server integration test', function ()
         options.assertJavaMetrics(false, buildType);
         options.assertContextRoot(APPNAME);
         options.assertVersion(buildType, false);
-        options.assertProperties(buildType, ARTIFACTID);
+        options.assertProperties(buildType);
         options.assertPlatforms(platformArray, buildType, APPNAME);
         jndiEntries.forEach(entry => {
           options.assertJNDI(true, entry.name, entry.value);

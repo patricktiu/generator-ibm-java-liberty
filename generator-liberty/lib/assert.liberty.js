@@ -118,14 +118,14 @@ function AssertLiberty() {
     }
   }
 
-  this.assertProperties = function(buildType, artifactId) {
+  this.assertProperties = function(buildType) {
     var check = tests.test(buildType).assertProperty;
     check('testServerHttpPort', '9080');
     check('testServerHttpsPort', '9443');
     if(buildType === 'gradle') {
       check('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
       check('warContext', '"${appName}"');
-      check('packageFile', '"${project.buildDir}/' + artifactId + '-${version}.zip"');
+      check('packageFile', '"${project.buildDir}/${rootProject.name}-${version}.zip"');
       check('packagingType', "'usr'");
     }
     if(buildType === 'maven') {
