@@ -118,6 +118,23 @@ function AssertLiberty() {
     }
   }
 
+  this.assertProperties = function(buildType) {
+    var check = tests.test(buildType).assertProperty;
+    check('testServerHttpPort', '9080');
+    check('testServerHttpsPort', '9443');
+    if(buildType === 'gradle') {
+      check('serverDirectory', '"${buildDir}/wlp/usr/servers/defaultServer"');
+      check('warContext', '"${appName}"');
+      check('packageFile', '"${project.buildDir}/${rootProject.name}-${version}.zip"');
+      check('packagingType', "'usr'");
+    }
+    if(buildType === 'maven') {
+      check('warContext', '${app.name}');
+      check('package.file', '${project.build.directory}/${project.artifactId}-${project.version}.zip');
+      check('packaging.type', 'usr');
+    }
+  }
+
   this.assertJNDI = function(exists, name, value) {
     var check = getCheck(exists);
     it(check.desc + 'a server.xml JDNI entry for ' + name + " = " + value, function() {
