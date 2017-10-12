@@ -33,7 +33,7 @@ const FRAMEWORK = 'liberty';
 
 class Options extends AssertLiberty {
 
-  constructor(buildType, createType, platforms, jndiEntries, envEntries, frameworkDependencies, javametrics, artifactId, libertybeta) {
+  constructor(buildType, createType, platforms, jndiEntries, envEntries, frameworkDependencies, javametrics, libertybeta) {
     super();
     this.conf = {
       headless :  "true",
@@ -49,7 +49,7 @@ class Options extends AssertLiberty {
       frameworkDependencies :frameworkDependencies,
       appName : APPNAME,
       groupId : GROUPID,
-      artifactId : artifactId,
+      artifactId : ARTIFACTID,
       version : VERSION,
       libertybeta : libertybeta
     }
@@ -78,7 +78,7 @@ describe('java liberty generator : Liberty server integration test', function ()
   buildTypes.forEach(buildType => {
     platforms.forEach(platformArray => {
       describe('Generates server configuration (no technologies) ' + buildType + ' with platforms ' + platformArray, function () {
-        var options = new Options(buildType, 'picnmix', platformArray, jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, false);
+        var options = new Options(buildType, 'picnmix', platformArray, jndiEntries, envEntries, frameworkDependencies, false, false);
         before(options.before.bind(options));
         options.assertAllFiles(true);
         options.assertJavaMetrics(false, buildType);
@@ -99,19 +99,13 @@ describe('java liberty generator : Liberty server integration test', function ()
     });
 
     describe('Check artifact id for ' + buildType, function () {
-      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, false);
+      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, false);
       before(options.before.bind(options));
       options.assertArtifactID(buildType, options.conf.artifactId);
     });
 
-    describe('Check appName overrides artifact id for ' + buildType, function () {
-      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, undefined, false);
-      before(options.before.bind(options));
-      options.assertArtifactID(buildType, options.conf.appName);
-    });
-
     describe('Generates correct build config when libertybeta is set to true', function() {
-      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, ARTIFACTID, true)
+      var options = new Options(buildType, 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, false, true)
       before(options.before.bind(options));
       options.assertVersion(buildType, true);
     });
@@ -120,7 +114,7 @@ describe('java liberty generator : Liberty server integration test', function ()
 });
 
 describe('Generates server configuration (no technologies) maven with deploy type with java metrics', function () {
-  var options = new Options('maven', 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, true, ARTIFACTID, false);
+  var options = new Options('maven', 'picnmix', [], jndiEntries, envEntries, frameworkDependencies, true, false);
   before(options.before.bind(options));
   options.assertAllFiles(true);
   options.assertJavaMetrics(true, 'maven');
