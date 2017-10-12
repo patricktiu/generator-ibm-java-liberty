@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.0"></a>
+# [6.0.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.4.0...v6.0.0) (2017-10-12)
+
+
+### Features
+
+* **templates:** Update Liberty build artifact names ([d29cf65](https://github.ibm.com/arf/java-codegen-liberty/commit/d29cf65))
+
+
+### Performance Improvements
+
+* **templates:** Update build.gradle file zip naming ([51f5934](https://github.ibm.com/arf/java-codegen-liberty/commit/51f5934))
+
+
+### BREAKING CHANGES
+
+* **templates:** build artifact zip file has different name
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+
+
+
 <a name="5.4.0"></a>
 # [5.4.0](https://github.ibm.com/arf/java-codegen-liberty/compare/v5.3.3...v5.4.0) (2017-10-03)
 
