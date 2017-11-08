@@ -7,6 +7,10 @@
     {"groupId" : "javax.enterprise", "artifactId" : "cdi-api", "version" : "1.2", "scope" : "provided"}
   ],
   "frameworkDependencies" : [
-    {"feature" : "microprofile-1.0"}
+    {{#if libertybeta}}
+        {"feature" : "microprofile-1.2"}
+    {{else}}
+        {"feature" : "microprofile-1.0"}
+    {{/if}}
   ]
 }
