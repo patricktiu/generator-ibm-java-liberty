@@ -69,9 +69,9 @@ function AssertTech() {
       assert.fileContent(README_MD, '**REST**');
     });
     tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     tests.test(buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
     liberty.assertFeature(true, 'jaxrs-2.0');
     liberty.assertFeature(true, 'jsonp-1.0');
   }
@@ -95,9 +95,9 @@ function AssertTech() {
   }
   this.assertmicroprofiledep = function(buildType) {
     tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     tests.test(buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
     tests.test(buildType).assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
     liberty.assertFeature(true, 'microprofile-1.0');
   }
@@ -108,7 +108,7 @@ function AssertTech() {
     it('generates an README.md file with a persistence section', function() {
       assert.fileContent(README_MD, '**Persistence**');
     });
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.persistence', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.persistence', '1.0.18');
     tests.test(buildType).assertDependency('provided', 'org.eclipse.persistence', 'javax.persistence', '2.1.0');
     liberty.assertFeature(true, 'jpa-2.1');
   }
@@ -130,7 +130,7 @@ function AssertTech() {
       assert.fileContent(README_MD, '**Servlet**');
     });
     tests.test(buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.1.18');
     liberty.assertFeature(true, 'servlet-3.1');
   }
   this.assertwatsonsdk = function(buildType) {
@@ -150,7 +150,7 @@ function AssertTech() {
       assert.fileContent(README_MD, '**Swagger**');
     });
     tests.test(buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.1.18');
     tests.test(buildType).assertDependency('provided', 'io.swagger', 'swagger-annotations', '1.5.3');
     liberty.assertFeature(true, 'apiDiscovery-1.0');
     if(buildType === 'maven') {
@@ -168,13 +168,13 @@ function AssertTech() {
       assert.fileContent(README_MD, '**Springboot**');
     });
     tests.test(buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.1.18');
     var exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
     tests.test(buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.3.0.RELEASE', exclusions);
   }
   this.assertspringbootwebonly = function(buildType) {
     tests.test(buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    tests.test(buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.1.18');
     liberty.assertFeature(false, 'jaxrs-2.0');
     it('does not generate JAX-RS dependent source files', function() {
       assert.noFile("src/main/java/application/rest/HealthEndpoint.java");
@@ -183,7 +183,7 @@ function AssertTech() {
   }
   this.asserthealthdeps = function(buildType) {
     tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.10');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.1.18');
     liberty.assertFeature(true, 'jaxrs-2.0');
   }
 }
