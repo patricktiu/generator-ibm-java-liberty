@@ -17,18 +17,18 @@
         <{{this.name}}>{{this.value}}</{{this.name}}>
         {{/each}}
         {{#has platforms 'bluemix'}}
-        <!-- Cloud Foundry/Bluemix properties -->
+        <!-- Cloud Foundry/IBM Cloud properties -->
         <cf.context>mybluemix.net</cf.context>
         <cf.target>https://api.ng.bluemix.net</cf.target>
         <cf.space>dev</cf.space>
         <cf.context.root>${cf.host}.${cf.context}/${warContext}</cf.context.root>
 
-        <!-- The Cloud Foundry or Bluemix organization, username and password can be
+        <!-- The Cloud Foundry or IBM Cloud organization, username and password can be
             entered here. -->
         <!-- <cf.org></cf.org> -->
         <!-- <cf.username></cf.username> -->
         <!-- <cf.password></cf.password> -->
-        <!-- This is the host for your app in Bluemix and what it will be called in the dashboard. -->
+        <!-- This is the host for your app in IBM Cloud and what it will be called in the dashboard. -->
         <cf.host>${app.name}</cf.host>
         {{/has}}
     </properties>

@@ -31,15 +31,15 @@ ext {
     {{this.name}} = {{{this.value}}}
     {{/each}}
     {{#has platforms 'bluemix'}}
-    // Cloud Foundry/Bluemix properties
-    // This is the host for your app in Bluemix and what it will be called in the dashboard.
+    // Cloud Foundry/IBM Cloud properties
+    // This is the host for your app in IBM Cloud and what it will be called in the dashboard.
     cfHost = appName
     cfContext = 'mybluemix.net'
     cfTarget = 'https://api.ng.bluemix.net'
     cfSpace = 'dev'
     cfContextRoot = "${cfHost}.${cfContext}/${warContext}"
 
-    // The Cloud Foundry or Bluemix organization, username and password can be entered here.
+    // The Cloud Foundry or IBM Cloud organization, username and password can be entered here.
     // cfOrg = ''
     // cfUsername = ''
     // cfPassword = ''

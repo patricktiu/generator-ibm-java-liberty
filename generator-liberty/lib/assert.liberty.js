@@ -171,7 +171,7 @@ function AssertLiberty() {
   }
 
   this.assertPlatforms = function(platforms, buildType, appName) {
-    describe('checks build steps for deploying to Bluemix', function() {
+    describe('checks build steps for deploying to IBM Cloud', function() {
       var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
       var check = getCheck(platforms.includes('bluemix'));
       if(buildType === 'gradle') {
@@ -200,8 +200,8 @@ function AssertLiberty() {
       }
       it(check.desc + 'README deployment instructions', function() {
         check.content(README_MD, '**Create Toolchain** button');
-        check.content(README_MD, 'contains Bluemix specific files');
-        check.content(README_MD, 'To deploy the application to bluemix:');
+        check.content(README_MD, 'contains IBM Cloud specific files');
+        check.content(README_MD, 'To deploy the application to IBM Cloud:');
         check.content(README_MD, 'The application will be deployed to the following url: [http://' + appName + '.mybluemix.net/' + appName + '/]');
       });
     });
