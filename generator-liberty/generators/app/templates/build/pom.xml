@@ -197,7 +197,7 @@
                             <goal>install-server</goal>
                         </goals>
                     </execution>
-                    {{#enableApiDiscovery}}
+                    {{#enableInstallFeature}}
                     <execution>
                       <id>install-feature</id>
                       <phase>prepare-package</phase>
@@ -206,12 +206,17 @@
                       </goals>
                       <configuration>
                           <features>
-                              <acceptLicense>true</acceptLicense>
+                          {{#enableApiDiscovery}}
                               <feature>apiDiscovery-1.0</feature>
+                          {{/enableApiDiscovery}}
+                          {{#enableMicroProfile}}
+                              <feature>microProfile-1.2</feature>
+                          {{/enableMicroProfile}}
+                              <acceptLicense>true</acceptLicense>
                           </features>
                       </configuration>
                     </execution>
-                    {{/enableApiDiscovery}}
+                    {{/enableInstallFeature}}
                     <execution>
                         <id>package-app</id>
                         <phase>package</phase>

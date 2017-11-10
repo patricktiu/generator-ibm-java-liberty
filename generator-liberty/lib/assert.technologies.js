@@ -94,12 +94,9 @@ function AssertTech() {
     this.assertmicroprofiledep(buildType);
   }
   this.assertmicroprofiledep = function(buildType) {
-    tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
     tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
-    tests.test(buildType).assertDependency('provided', 'javax.json', 'javax.json-api', '1.0');
     tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.json', '1.0.18');
-    tests.test(buildType).assertDependency('provided', 'javax.enterprise', 'cdi-api', '1.2');
-    liberty.assertFeature(true, 'microprofile-1.0');
+    liberty.assertFeature(true, 'microprofile-1.2');
   }
   this.assertpersistence = function(buildType) {
     it('generates an index.html file with a persistence section', function() {
@@ -174,7 +171,7 @@ function AssertTech() {
   }
   this.assertspringbootwebonly = function(buildType) {
     tests.test(buildType).assertNoDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.1.18');
+    tests.test(buildType).assertNoDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     liberty.assertFeature(false, 'jaxrs-2.0');
     it('does not generate JAX-RS dependent source files', function() {
       assert.noFile("src/main/java/application/rest/HealthEndpoint.java");
@@ -183,7 +180,7 @@ function AssertTech() {
   }
   this.asserthealthdeps = function(buildType) {
     tests.test(buildType).assertDependency('provided', 'javax.ws.rs', 'javax.ws.rs-api', '2.0.1');
-    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.1.18');
+    tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.jaxrs20', '1.0.18');
     liberty.assertFeature(true, 'jaxrs-2.0');
   }
 }

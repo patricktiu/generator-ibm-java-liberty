@@ -112,12 +112,12 @@ liberty {
         runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/17.0.0.3/wlp-webProfile7-17.0.0.3.zip"
         {{/libertybeta}}
     }
-    {{#enableApiDiscovery}}
+    {{#enableInstallFeature}}
     features {
-        name = ['apiDiscovery-1.0']
+        name = [{{#enableApiDiscovery}}'apiDiscovery-1.0'{{/enableApiDiscovery}}{{#enableMicroProfile}}{{#enableApiDiscovery}}, {{/enableApiDiscovery}}'microProfile-1.2'{{/enableMicroProfile}}]
         acceptLicense = true
     }
-    {{/enableApiDiscovery}}
+    {{/enableInstallFeature}}
     packageLiberty {
         archive = packageFile
         include = packagingType
@@ -171,6 +171,9 @@ tasks.create('setupServer')
 check.dependsOn 'integrationTest'
 setupServer.dependsOn 'installLiberty', 'createServerBootstrap', 'publishServerConfig', 'publishWar'
 publishServerConfig.mustRunAfter 'installLiberty'
+{{#enableInstallFeature}}
+installLiberty.finalizedBy 'installFeature'
+{{/enableInstallFeature}}
 createServerBootstrap.mustRunAfter 'publishServerConfig'
 publishWar.mustRunAfter 'installLiberty'
 publishWar.dependsOn 'war'
