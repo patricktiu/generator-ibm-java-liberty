@@ -38,7 +38,6 @@ module.exports = class extends Generator {
     this.conf.addMissing(opts, defaults);
     this.openApiDir = [];
     this.conf.enableApiDiscovery = this.config.enableApiDiscovery || false;
-    this.conf.enableInstallFeature = this.config.InstallFeature || false;
     this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
   }
 
@@ -53,21 +52,15 @@ module.exports = class extends Generator {
   configuring() {
     this.configure(this);
     if(this.conf.technologies.includes('swagger')) {
-      this.conf.enableInstallFeature = true;
       this.conf.enableApiDiscovery = true;
     }
     this.openApiDir = [];
     if(this.conf.bluemix && this.conf.bluemix.openApiServers && this.conf.bluemix.backendPlatform == 'JAVA' ) {
-      this.conf.enableInstallFeature = true;
       this.conf.enableApiDiscovery = true;
       return OpenApi.generate(this.conf.bluemix.openApiServers)
         .then(dir => {
           this.openApiDir = dir;
         });
-    }
-    if(this.conf.technologies.includes('microprofile') || this.conf.technologies.includes('msbuilder')) {
-      this.conf.enableInstallFeature = true;
-      this.conf.enableMicroProfile = true;
     }
   }
 
