@@ -88,31 +88,6 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-resources-plugin</artifactId>
-                <version>2.7</version>
-                <executions>
-                    <execution>
-                        <id>copy-app</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>copy-resources</goal>
-                        </goals>
-                        <configuration>
-                          <outputDirectory>${project.build.directory}/liberty/wlp/usr/servers/defaultServer/dropins</outputDirectory>
-                          <resources>
-                            <resource>
-                              <directory>${project.build.directory}</directory>
-                              <includes>
-                                <include>${project.artifactId}-${project.version}.war</include>
-                              </includes>
-                            </resource>
-                          </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
             {{#javametrics}}
             <!-- Configure javametrics monitoring -->
             <plugin>
@@ -188,6 +163,7 @@
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
+                    <installAppPackages>project</installAppPackages>
                 </configuration>
                 <executions>
                     <execution>
@@ -195,23 +171,28 @@
                         <phase>prepare-package</phase>
                         <goals>
                             <goal>install-server</goal>
+                            <goal>create-server</goal>
                         </goals>
                     </execution>
-                    {{#enableApiDiscovery}}
                     <execution>
-                      <id>install-feature</id>
-                      <phase>prepare-package</phase>
-                      <goals>
+                        <id>install-feature</id>
+                        <phase>prepare-package</phase>
+                        <goals>
                           <goal>install-feature</goal>
-                      </goals>
-                      <configuration>
-                          <features>
-                              <acceptLicense>true</acceptLicense>
-                              <feature>apiDiscovery-1.0</feature>
-                          </features>
-                      </configuration>
+                        </goals>
+                        <configuration>
+                            <features>
+                                <acceptLicense>true</acceptLicense>
+                            </features>
+                        </configuration>
                     </execution>
-                    {{/enableApiDiscovery}}
+                    <execution>
+                        <id>install-apps</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>install-apps</goal>
+                        </goals>
+                    </execution>
                     <execution>
                         <id>package-app</id>
                         <phase>package</phase>

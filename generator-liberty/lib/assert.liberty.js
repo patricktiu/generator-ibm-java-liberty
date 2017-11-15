@@ -92,7 +92,7 @@ function AssertLiberty() {
         }
       } else {
         if(buildType === 'gradle') {
-          check.content('wlp-webProfile7-' + LIBERTY_VERSION);
+          check.content('wlp-webProfile7:' + LIBERTY_VERSION);
         }
         if(buildType === 'maven') {
           var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
