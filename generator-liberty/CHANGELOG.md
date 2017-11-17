@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="6.0.2"></a>
+## [6.0.2](https://github.ibm.com/arf/java-codegen-liberty/compare/v6.0.1...v6.0.2) (2017-11-17)
+
+
+### Bug Fixes
+
+* **config:** Update Liberty server api to latest version ([6f5cce7](https://github.ibm.com/arf/java-codegen-liberty/commit/6f5cce7))
+* **config:** Use microProfile-1.2 feature for liberty beta ([29a2166](https://github.ibm.com/arf/java-codegen-liberty/commit/29a2166))
+* **config:** Use microProfile-1.2 feature for liberty ga ([091018b](https://github.ibm.com/arf/java-codegen-liberty/commit/091018b))
+* **templates:** Replace references of Bluemix with IBM Cloud ([c20cea4](https://github.ibm.com/arf/java-codegen-liberty/commit/c20cea4))
+* **templates:** Update liberty plugin version ([9c1b42d](https://github.ibm.com/arf/java-codegen-liberty/commit/9c1b42d))
+
+
+
 <a name="6.0.1"></a>
 ## [6.0.1](https://github.ibm.com/arf/java-codegen-liberty/compare/v6.0.0...v6.0.1) (2017-10-17)
 
