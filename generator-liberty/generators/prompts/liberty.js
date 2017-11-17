@@ -97,7 +97,7 @@ Extension.prototype.getQuestions = function() {
     when : this.show.bind(this),
     type : 'confirm',
     name : 'addbluemix',
-    message : 'Add bluemix to your application?',
+    message : 'Add IBM Cloud to your application?',
     default : false
   }, {
     when : this.show.bind(this),

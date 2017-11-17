@@ -6,7 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.0'
+        classpath 'net.wasdev.wlp.gradle.plugins:liberty-gradle-plugin:2.0.1'
         classpath files('gradle/wlp-anttasks.jar')
         {{#has platforms 'bluemix'}}
         classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'
@@ -31,15 +31,15 @@ ext {
     {{this.name}} = {{{this.value}}}
     {{/each}}
     {{#has platforms 'bluemix'}}
-    // Cloud Foundry/Bluemix properties
-    // This is the host for your app in Bluemix and what it will be called in the dashboard.
+    // Cloud Foundry/IBM Cloud properties
+    // This is the host for your app in IBM Cloud and what it will be called in the dashboard.
     cfHost = appName
     cfContext = 'mybluemix.net'
     cfTarget = 'https://api.ng.bluemix.net'
     cfSpace = 'dev'
     cfContextRoot = "${cfHost}.${cfContext}/${warContext}"
 
-    // The Cloud Foundry or Bluemix organization, username and password can be entered here.
+    // The Cloud Foundry or IBM Cloud organization, username and password can be entered here.
     // cfOrg = ''
     // cfUsername = ''
     // cfPassword = ''
@@ -58,6 +58,9 @@ dependencies {
         {{/each}}
     } {{/if}}
     {{/each}}
+    {{#unless libertybeta}}
+    libertyRuntime ('com.ibm.websphere.appserver.runtime:wlp-webProfile7:17.0.0.3')
+    {{/unless}}
 }
 
 test {
@@ -84,44 +87,27 @@ task printMessageAboutRunningServer {
     }
 }
 
-task publishServerConfig(type: Copy) {
-    from 'src/main/liberty/config/'
-    into serverDirectory
-}
-
-task publishWar(type: Copy) {
-    from(war)
-    into("${serverDirectory}/dropins")
-}
-
-task createServerBootstrap() {
-    outputs.file("${serverDirectory}/bootstrap.properties")
-    doLast {
-        def bootstrapProperties = file("${serverDirectory}/bootstrap.properties")
-        if (!bootstrapProperties.exists()) {
-            bootstrapProperties << "default.http.port=${testServerHttpPort}\ndefault.https.port=${testServerHttpsPort}"
-        }
-    }
-}
-
 liberty {
+    {{#libertybeta}}
     install {
-        {{#libertybeta}}
         version = "2017.+"
-        {{else}}
-        runtimeUrl = "http://repo1.maven.org/maven2/com/ibm/websphere/appserver/runtime/wlp-webProfile7/17.0.0.3/wlp-webProfile7-17.0.0.3.zip"
-        {{/libertybeta}}
     }
-    {{#enableApiDiscovery}}
-    features {
-        name = ['apiDiscovery-1.0']
-        acceptLicense = true
-    }
-    {{/enableApiDiscovery}}
-    packageLiberty {
-        archive = packageFile
-        include = packagingType
-    }
+    {{/libertybeta}}
+    server{
+        apps = [war]
+        configFile = file("src/main/liberty/config/server.xml")
+        jvmOptionsFile = file("src/main/liberty/config/jvm.options")
+        serverEnv = file("src/main/liberty/config/server.env")
+        bootstrapProperties = ['default.http.port': "${testServerHttpPort}" , 
+                               'default.https.port': "${testServerHttpsPort}"]
+        features {
+            acceptLicense = true
+        }
+        packageLiberty {
+            archive = packageFile
+            include = packagingType
+        }
+     }
 }
 
 task libertyStartTestServer(type: net.wasdev.wlp.gradle.plugins.tasks.StartTask){
@@ -167,19 +153,11 @@ cloudfoundry {
 }
 {{/has}}
 
-tasks.create('setupServer')
 check.dependsOn 'integrationTest'
-setupServer.dependsOn 'installLiberty', 'createServerBootstrap', 'publishServerConfig', 'publishWar'
-publishServerConfig.mustRunAfter 'installLiberty'
-createServerBootstrap.mustRunAfter 'publishServerConfig'
-publishWar.mustRunAfter 'installLiberty'
-publishWar.dependsOn 'war'
-libertyStart.dependsOn 'setupServer'
-integrationTest.dependsOn 'libertyStartTestServer', 'testClasses'
+libertyCreate.finalizedBy 'installFeature'
+integrationTest.dependsOn 'libertyStart', 'testClasses'
 integrationTest.finalizedBy 'libertyStop'
-libertyStartTestServer.dependsOn 'setupServer'
-assemble.dependsOn 'libertyPackage'
-libertyPackage.dependsOn 'setupServer'
+assemble.finalizedBy 'libertyPackage'
 {{#has platforms 'bluemix'}}
 cfPush.dependsOn 'printBluemixProperties'
 {{/has}}
