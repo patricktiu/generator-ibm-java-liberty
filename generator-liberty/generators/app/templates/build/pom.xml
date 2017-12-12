@@ -6,6 +6,13 @@
     <version>{{version}}</version>
     <packaging>war</packaging>
 
+    <!-- contains default pluginManagement configuration for liberty-maven-plugin -->
+    <parent>
+        <groupId>net.wasdev.wlp.maven.parent</groupId>
+        <artifactId>liberty-maven-app-parent</artifactId>
+        <version>2.1.1</version>
+    </parent>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -139,7 +146,6 @@
                 <groupId>net.wasdev.wlp.maven.plugins</groupId>
                 <artifactId>liberty-maven-plugin</artifactId>
                 <version>2.1.1</version>
-                <extensions>true</extensions>
                 <configuration>
                     {{#libertybeta}}
                     <install>
@@ -160,20 +166,12 @@
                     <packageFile>${package.file}</packageFile>
                     <include>${packaging.type}</include>
                     <bootstrapProperties>
+                        <app.location>${project.artifactId}-${project.version}.war</app.location>
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
-                    <installAppPackages>project</installAppPackages>
                 </configuration>
                 <executions>
-                    <execution>
-                        <id>install-liberty</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>install-server</goal>
-                            <goal>create-server</goal>
-                        </goals>
-                    </execution>
                     <execution>
                         <id>install-feature</id>
                         <phase>prepare-package</phase>
@@ -184,35 +182,8 @@
                             <features>
                                 <acceptLicense>true</acceptLicense>
                             </features>
+                            <outputDirectory>target/liberty-alt-output-dir</outputDirectory>
                         </configuration>
-                    </execution>
-                    <execution>
-                        <id>install-apps</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>install-apps</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>package-app</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>package-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-start-server</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>test-start-server</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>test-stop-server</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>test-stop-server</goal>
-                        </goals>
                     </execution>
                 </executions>
             </plugin>
