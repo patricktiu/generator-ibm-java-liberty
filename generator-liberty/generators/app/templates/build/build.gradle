@@ -98,7 +98,8 @@ liberty {
         configFile = file("src/main/liberty/config/server.xml")
         jvmOptionsFile = file("src/main/liberty/config/jvm.options")
         serverEnv = file("src/main/liberty/config/server.env")
-        bootstrapProperties = ['default.http.port': "${testServerHttpPort}" , 
+        bootstrapProperties = ['app.location': "${rootProject.name}-${version}.war",
+                               'default.http.port': "${testServerHttpPort}", 
                                'default.https.port': "${testServerHttpsPort}"]
         features {
             acceptLicense = true

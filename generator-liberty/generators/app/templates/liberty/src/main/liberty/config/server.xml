@@ -28,4 +28,9 @@
     <jndiEntry jndiName="{{name}}" value="{{value}}"/>
   {{/each}}
 
+  <!-- Automatically expand WAR files and EAR files -->
+  <applicationManager autoExpand="true"/>
+
+  <webApplication name="{{artifactId}}" location="${app.location}"/>
+
 </server>
