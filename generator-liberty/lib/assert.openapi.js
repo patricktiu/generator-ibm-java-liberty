@@ -17,36 +17,37 @@
 /**
  * Provides the assertions for testing Liberty code and config from this generator
  */
-'use strict';
 
-const assert = require('yeoman-assert');
-const example = require('../resources/openapi/basicswagger.json');
-const example1 = require('../resources/openapi/basicswagger1.json');
+'use strict'
 
-function AssertOpenApi() {
-    this.assert = function(exists, examples) {
-        var check = exists ? assert.file : assert.noFile;
-        var desc = exists ? 'creates openapi files' : 'does not create openapi files';
-        if(examples.includes('example')) {
-            it(desc, function() {
-                check(['src/main/java/io/swagger/model/CollectiveInfo.java', 'src/main/java/io/swagger/api/IbmApi.java']);
-                assert.noFile('src/main/java/io/swagger/api/RestApplication.java');
-            });
-        }
-        if(examples.includes('example1')) {
-            it(desc, function() {
-                check(['src/main/java/io/swagger/model/Pet1.java', 'src/main/java/io/swagger/api/Pets1Api.java']);
-                assert.noFile('src/main/java/io/swagger/api/RestApplication.java');
-            });
-        }
-    }
+const assert = require('yeoman-assert')
+const example = require('../resources/openapi/basicswagger.json')
+const example1 = require('../resources/openapi/basicswagger1.json')
 
-    this.getExample = function() {
-        return {name: 'example', value: example};
+function AssertOpenApi () {
+  this.assert = function (exists, examples) {
+    const check = exists ? assert.file : assert.noFile
+    const desc = exists ? 'creates openapi files' : 'does not create openapi files'
+    if (examples.includes('example')) {
+      it(desc, function () {
+        check(['src/main/java/io/swagger/model/CollectiveInfo.java', 'src/main/java/io/swagger/api/IbmApi.java'])
+        assert.noFile('src/main/java/io/swagger/api/RestApplication.java')
+      })
     }
-    this.getExample1 = function() {
-        return {name: 'example1', value: example1};
+    if (examples.includes('example1')) {
+      it(desc, function () {
+        check(['src/main/java/io/swagger/model/Pet1.java', 'src/main/java/io/swagger/api/Pets1Api.java'])
+        assert.noFile('src/main/java/io/swagger/api/RestApplication.java')
+      })
     }
+  }
+
+  this.getExample = function () {
+    return {name: 'example', value: example}
+  }
+  this.getExample1 = function () {
+    return {name: 'example1', value: example1}
+  }
 }
 
-module.exports = exports = AssertOpenApi;
+module.exports = exports = AssertOpenApi

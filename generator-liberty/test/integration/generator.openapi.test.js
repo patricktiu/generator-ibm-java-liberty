@@ -17,108 +17,108 @@
 /**
  * Tests the Liberty aspects generator
  */
-'use strict';
-const path = require('path');
-const helpers = require('yeoman-test');
-const AssertOpenApi = require('../../lib/assert.openapi');
-const MockPromptMgr = require('../mocks/mock.promptmgr');
-const common = require('@arf/java-common');
-const openapidoc = require('../../resources/openapi/basicswagger.json');
-const openapidoc1 = require('../../resources/openapi/basicswagger1.json');
+'use strict'
+const path = require('path')
+const helpers = require('yeoman-test')
+const AssertOpenApi = require('../../lib/assert.openapi')
+const MockPromptMgr = require('../mocks/mock.promptmgr')
+const common = require('ibm-java-codegen-common')
+const openapidoc = require('../../resources/openapi/basicswagger.json')
+const openapidoc1 = require('../../resources/openapi/basicswagger1.json')
 
-const ARTIFACTID = 'artifact.0.1';
-const GROUPID = 'test.group';
-const VERSION = '1.0.0';
-const APPNAME = 'testApp';
+const ARTIFACTID = 'artifact.0.1'
+const GROUPID = 'test.group'
+const VERSION = '1.0.0'
+const APPNAME = 'testApp'
 
 class Options extends AssertOpenApi {
 
-  constructor(buildType, createType, bluemix) {
-    super();
+  constructor (buildType, createType, bluemix) {
+    super()
     this.conf = {
-      headless :  "true",
-      debug : "true",
-      buildType : buildType,
-      createType : createType,
-      promptType : 'prompt:liberty',
-      appName : APPNAME,
-      groupId : GROUPID,
-      artifactId : ARTIFACTID,
-      version : VERSION
+      headless: 'true',
+      debug: 'true',
+      buildType: buildType,
+      createType: createType,
+      promptType: 'prompt:liberty',
+      appName: APPNAME,
+      groupId: GROUPID,
+      artifactId: ARTIFACTID,
+      version: VERSION
     }
-    if(bluemix) {
-        this.conf.bluemix = bluemix;
+    if (bluemix) {
+      this.conf.bluemix = bluemix
     }
-    var ctx = new common.context('test', this.conf, new MockPromptMgr());
+    const ctx = new common.context('test', this.conf, new MockPromptMgr())
     this.options = {
-      context : ctx
-    };
-    this.before = function() {
-      return helpers.run(path.join( __dirname, '../../generators/app'))
+      context: ctx
+    }
+    this.before = function () {
+      return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
         .withPrompts({})
-        .toPromise();
+        .toPromise()
     }
   }
 }
 
-const buildTypes = ['gradle', 'maven'];
+const buildTypes = ['gradle', 'maven']
 
 describe('java liberty generator : Liberty server integration test', function () {
-  this.timeout('40000');
+  this.timeout('40000')
   buildTypes.forEach(buildType => {
     describe('generate project without openapi code with buildType ' + buildType, function () {
-      var bluemix = {
-          "backendPlatform" : "JAVA"
+      const bluemix = {
+        'backendPlatform': 'JAVA'
       }
-      var options = new Options(buildType, 'basic/liberty', bluemix);
-      before(options.before.bind(options));
-      options.assert(false, []);
-    });
+      const options = new Options(buildType, 'basic/liberty', bluemix)
+      before(options.before.bind(options))
+      options.assert(false, [])
+    })
     describe('generate project with openapi code with buildType ' + buildType, function () {
-      var bluemix = {
-          "backendPlatform" : "JAVA",
-          "openApiServers" : [
-              {
-                  "spec" : JSON.stringify(openapidoc)
-              }
-          ]
+      const bluemix = {
+        'backendPlatform': 'JAVA',
+        'openApiServers': [
+          {
+            'spec': JSON.stringify(openapidoc)
+          }
+        ]
       }
-      var options = new Options(buildType, 'basic/liberty', bluemix);
-      before(options.before.bind(options));
-      options.assert(true, ['example']);
-    });
+      const options = new Options(buildType, 'basic/liberty', bluemix)
+      before(options.before.bind(options))
+      options.assert(true, ['example'])
+    })
     describe('generate project with two identical openapi code docs with buildType ' + buildType, function () {
-      var bluemix = {
-          "backendPlatform" : "JAVA",
-          "openApiServers" : [
-              {
-                  "spec" : JSON.stringify(openapidoc)
-              },
-              {
-                  "spec" : JSON.stringify(openapidoc)
-              }
-          ]
+      const bluemix = {
+        'backendPlatform': 'JAVA',
+        'openApiServers': [
+          {
+            'spec': JSON.stringify(openapidoc)
+          },
+          {
+            'spec': JSON.stringify(openapidoc)
+          }
+        ]
       }
-      var options = new Options(buildType, 'basic/liberty', bluemix);
-      before(options.before.bind(options));
-      options.assert(true, ['example']);
-    });
-      describe('generate project with two different openapi code docs with buildType ' + buildType, function () {
-      var bluemix = {
-          "backendPlatform" : "JAVA",
-          "openApiServers" : [
-              {
-                  "spec" : JSON.stringify(openapidoc)
-              },
-              {
-                  "spec" : JSON.stringify(openapidoc1)
-              }
-          ]
+      const options = new Options(buildType, 'basic/liberty', bluemix)
+      before(options.before.bind(options))
+      options.assert(true, ['example'])
+    })
+    describe('generate project with two different openapi code docs with buildType ' + buildType, function () {
+      const bluemix = {
+        'backendPlatform': 'JAVA',
+        'openApiServers': [
+          {
+            'spec': JSON.stringify(openapidoc)
+          },
+          {
+            'spec': JSON.stringify(openapidoc1)
+          }
+        ]
       }
-      var options = new Options(buildType, 'basic/liberty', bluemix);
-      before(options.before.bind(options));
-      options.assert(true, ['example', 'example1']);
-    });
-  });
+      const options = new Options(buildType, 'basic/liberty', bluemix)
+      before(options.before.bind(options))
+      options.assert(true, ['example', 'example1'])
+    })
+  })
 })

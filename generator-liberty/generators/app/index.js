@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
+'use strict';
+
 const Generator = require('yeoman-generator');
-const Handlebars = require('handlebars');
-const fspath = require('path');
-const fs = require('fs');
 const extend = require('extend');
 const Defaults = require('../../lib/defaults');
 const OpenApi = require('../../lib/openapi');
 
-var defaults = new Defaults();
+const defaults = new Defaults();
 
 module.exports = class extends Generator {
 
@@ -32,7 +31,7 @@ module.exports = class extends Generator {
     defaults.setOptions(this);
     extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
     this.logger.writeToLog("Liberty Generator context", opts.context);
-    var ext = this.promptmgr.add(require('../prompts/liberty.js'));
+    const ext = this.promptmgr.add(require('../prompts/liberty.js'));
     ext.setContext(opts.context);
     this.patterns.push('picnmix');
     this.conf.addMissing(opts, defaults);

@@ -17,70 +17,69 @@
 /**
  * Tests the technology aspect of the generator
  */
-'use strict';
-const path = require('path');
-const assert = require('yeoman-assert');
-const helpers = require('yeoman-test');
-const AssertTech = require('../../lib/assert.technologies');
-const AssertLiberty = require('../../lib/assert.liberty');
-const MockPromptMgr = require('../mocks/mock.promptmgr');
-const common = require('@arf/java-common');
+'use strict'
+const path = require('path')
+const helpers = require('yeoman-test')
+const AssertTech = require('../../lib/assert.technologies')
+const AssertLiberty = require('../../lib/assert.liberty')
+const MockPromptMgr = require('../mocks/mock.promptmgr')
+const common = require('ibm-java-codegen-common')
 
 class TechOptions extends AssertTech {
-  constructor(buildType) {
-    super();
+  constructor (buildType) {
+    super()
     this.conf = {
-      headless :  "true",
-      debug : "true",
-      createType : 'picnmix',
-      buildType : buildType,
-      appName : 'testAppName'
+      headless: 'true',
+      debug: 'true',
+      createType: 'picnmix',
+      buildType: buildType,
+      appName: 'testAppName'
     }
-    var ctx = new common.context('test', this.conf, new MockPromptMgr());
+    const ctx = new common.context('test', this.conf, new MockPromptMgr())
     this.options = {
-      context : ctx
-    };
-    this.before = function() {
-      return helpers.run(path.join( __dirname, '../../generators/app'))
+      context: ctx
+    }
+    this.before = function () {
+      return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
         .withPrompts({})
-        .toPromise();
+        .toPromise()
     }
   }
 }
 
 class LibertyOptions extends AssertLiberty {
-  constructor(buildType) {
-    super();
+  constructor (buildType) {
+    super()
     this.conf = {
-      headless :  "true",
-      debug : "true",
-      createType : 'picnmix',
-      buildType : buildType
+      headless: 'true',
+      debug: 'true',
+      createType: 'picnmix',
+      buildType: buildType
     }
-    var ctx = new common.context('test', this.conf, new MockPromptMgr());
+    const ctx = new common.context('test', this.conf, new MockPromptMgr())
     this.options = {
-      context : ctx
-    };
-    this.before = function() {
-      return helpers.run(path.join( __dirname, '../../generators/app'))
+      context: ctx
+    }
+    this.before = function () {
+      return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
         .withPrompts({})
-        .toPromise();
+        .toPromise()
     }
   }
 }
 
 describe('java liberty generator : defaults integration test', function () {
   describe('Generates a project with default technologies', function () {
-    var options = new TechOptions('maven');
-    before(options.before.bind(options));
-    options.assertrest('maven');
-  });
+    const options = new TechOptions('maven')
+    before(options.before.bind(options))
+    options.assertrest('maven')
+  })
   describe('Generates a project with default technologies', function () {
-    var options = new LibertyOptions('maven');
-    before(options.before.bind(options));
-    options.assertPlatforms([], 'maven', 'testAppName');
-  });
+    const options = new LibertyOptions('maven')
+    before(options.before.bind(options))
+    options.assertPlatforms([], 'maven', 'testAppName')
+  })
 
-});
+})

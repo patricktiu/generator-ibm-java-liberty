@@ -21,7 +21,7 @@
 const assert = require('yeoman-assert');
 const INDEX_HTML = 'src/main/webapp/index.html';
 const README_MD = 'README.md';
-const tests = require('@arf/java-common');
+const tests = require('ibm-java-codegen-common');
 const AssertLiberty = require('./assert.liberty');
 const liberty = new AssertLiberty();
 
@@ -160,7 +160,7 @@ function AssertTech() {
     });
     tests.test(buildType).assertDependency('provided', 'javax.servlet', 'javax.servlet-api', '3.1.0');
     tests.test(buildType).assertDependency('provided', 'com.ibm.websphere.appserver.api', 'com.ibm.websphere.appserver.api.servlet', '1.1.18');
-    var exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
+    const exclusions = [{"groupId" : "org.springframework.boot", "artifactId" : "spring-boot-starter-tomcat"}];
     tests.test(buildType).assertDependency('compile', 'org.springframework.boot', 'spring-boot-starter-web', '1.3.0.RELEASE', exclusions);
   }
   this.assertspringbootwebonly = function(buildType) {

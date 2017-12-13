@@ -16,7 +16,7 @@
 
 //test the config module
 
-var assert = require('assert');
+'use strict';
 
 describe('Liberty generator unit test', function() {
   it('should be invoked by the main generator when running unit tests', function(){

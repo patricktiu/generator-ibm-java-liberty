@@ -1,24 +1,12 @@
 # Yeoman generator for Liberty / Java EE code
-| Build | Status |
-| ------ | ---- |
-| development | [![Build Status](https://travis.ibm.com/arf/java-codegen-liberty.svg?token=D9H1S9JmREZirtqjnxut&branch=development)](https://travis.ibm.com/arf/java-codegen-liberty) |
-| master | [![Build Status](https://travis.ibm.com/arf/java-codegen-liberty.svg?token=D9H1S9JmREZirtqjnxut&branch=master)](https://travis.ibm.com/arf/java-codegen-liberty) |
 
-You can see builds for all branches here https://travis.ibm.com/arf/java-codegen-liberty/branches.
+[![Build Status](https://travis-ci.org/ibm-developer/generator-ibm-java-liberty.svg?branch=master)](https://travis-ci.org/ibm-developer/generator-ibm-java-liberty)
+
+You can see builds for all branches here [https://travis.ibm.com/arf/java-codegen-liberty/branches](https://travis.ibm.com/arf/java-codegen-liberty/branches).
 
 This is a yeoman generator that will create Java code for you.
 
-* It is published as a node module in the IBM NPM repository : https://npm.whitewater.ibm.com
-* The node module is published as @arf/generator-liberty (note that it's [scoped](https://docs.npmjs.com/misc/scope#installing-scoped-packages) to @arf), see the [step above](https://github.ibm.com/Whitewater/npm) as to
-why this module is scoped.
-
-The code coverage for the latest version of the generator hosted in the [IBM NPM repository](https://npm.whitewater.ibm.com/package/@arf/generator-liberty) can be viewed in GitHub Pages. There are separate reports for [unit test coverage](https://pages.github.ibm.com/arf/java-codegen-liberty/cc/unit/lcov-report/index.html) and [integration test coverage](https://pages.github.ibm.com/arf/java-codegen-liberty/cc/int/lcov-report/index.html).
-
-## Branches
-The generator has a number of branches that correspond to various bluemix environments and development lifecycles
-
-* **development** : this is the development branch, although this should build, it is the latest code for this generator and may not work as expected. This branch is needed to be able to do end-to-end testing as YaaS, scaffolder etc. work from git repositories.
-* **master** : this is what is deployed into live.
+It is published on npm [here](https://www.npmjs.com/package/generator-ibm-java-liberty).
 
 ## Overview
 The generator works by taking the answers that the user has supplied, either via the CLI or a UI, and then maps that
@@ -27,7 +15,7 @@ It then walks all the files in the directory and for each one parses it through 
 
 ## Running the generator
 
-This is a sub generator and is intended to work with the main [Java code generator](https://github.ibm.com/arf/java-codegen-yeoman). This generator is listed as a dependency in the [package.json](https://github.ibm.com/arf/java-codegen-yeoman/blob/development/generator-java/package.json) which means that it will be installed automatically. Follow the build instructions for the main page then additionally
+This is a sub generator and is intended to work with the main [Java code generator](https://github.com/ibm-developer/generator-ibm-java). This generator is listed as a dependency in the [package.json](https://github.ibm.com/arf/java-codegen-yeoman/blob/development/generator-java/package.json) which means that it will be installed automatically. Follow the build instructions for the main page then additionally
 
 * Fork or clone this repository locally.
 * Change into the `generator-liberty` directory (where the *package.json* file is)

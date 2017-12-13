@@ -28,7 +28,7 @@ const IBM_WEB_EXT = 'src/main/webapp/WEB-INF/ibm-web-ext.xml';
 const JVM_OPTIONS_JAVAAGENT = '-javaagent:resources/javametrics-agent.jar';
 const LIBERTY_VERSION = '17.0.0.3';   //current Liberty version to check for
 const LIBERTY_BETA_VERSION = '2017.+';   //current Liberty beta version to check for
-const tests = require('@arf/java-common');
+const tests = require('ibm-java-codegen-common');
 
 //handy function for checking both existence and non-existence
 function getCheck(exists) {
@@ -47,7 +47,7 @@ function getBuildCheck(exists, buildType) {
 
 function AssertLiberty() {
   this.assertAllFiles = function(exists) {
-    var check = getCheck(exists);
+    const check = getCheck(exists);
     it(check.desc + 'server.xml, server.env, jvm.options and ibm-web-ext.xml', function() {
       check.file(SERVER_XML);
       check.file(SERVER_ENV);
@@ -58,11 +58,11 @@ function AssertLiberty() {
   }
 
   this.assertJavaMetrics = function(exists, buildType) {
-    var check = getCheck(exists);
-    var self = this;
+    const check = getCheck(exists);
+    const self = this;
     describe(check.desc + 'javametrics code, dependencies or features', function() {
       it(check.desc + 'jvm.options with ' + JVM_OPTIONS_JAVAAGENT, function() {
-          check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
+        check.content(JVM_OPTIONS, JVM_OPTIONS_JAVAAGENT);
       });
 
       self.assertFeature(exists, "jsp-2.3");
@@ -70,7 +70,7 @@ function AssertLiberty() {
       self.assertFeature(exists, "managedBeans-1.0");
       self.assertFeature(exists, "websocket-1.1");
 
-      var depcheck = exists ? tests.test(buildType).assertDependency : tests.test(buildType).assertNoDependency;
+      const depcheck = exists ? tests.test(buildType).assertDependency : tests.test(buildType).assertNoDependency;
       depcheck('provided', 'com.ibm.runtimetools', 'javametrics-agent', '1.0.1');
       depcheck('provided', 'com.ibm.runtimetools', 'javametrics-dash', '1.0.1');
 
@@ -79,15 +79,15 @@ function AssertLiberty() {
 
   this.assertVersion = function(buildType, libertybeta) {
     describe('contains Liberty version ' + LIBERTY_VERSION, function() {
-      var check = getBuildCheck(true, buildType);
+      const check = getBuildCheck(true, buildType);
       if(libertybeta) {
         if(buildType === 'gradle') {
           check.content('version = "' + LIBERTY_BETA_VERSION + '"');
         }
         if(buildType === 'maven') {
-          var betaVersion = LIBERTY_BETA_VERSION.replace(/\./g, '\\.').replace(/\+/g, '\\+');
-          var betaContent = '<install>\\s*<type>webProfile7</type>\\s*<version>' + betaVersion + '</version>\\s*</install>';
-          var betaRegex = new RegExp(betaContent);
+          const betaVersion = LIBERTY_BETA_VERSION.replace(/\./g, '\\.').replace(/\+/g, '\\+');
+          const betaContent = '<install>\\s*<type>webProfile7</type>\\s*<version>' + betaVersion + '</version>\\s*</install>';
+          const betaRegex = new RegExp(betaContent);
           check.content(betaRegex);
         }
       } else {
@@ -95,11 +95,11 @@ function AssertLiberty() {
           check.content('wlp-webProfile7:' + LIBERTY_VERSION);
         }
         if(buildType === 'maven') {
-          var groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
-          var artifactId = 'wlp-webProfile7';
-          var version = LIBERTY_VERSION.replace(/\./g, '\\.');
-          var content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
-          var regex = new RegExp(content);
+          const groupId = 'com\\.ibm\\.websphere\\.appserver\\.runtime';
+          const artifactId = 'wlp-webProfile7';
+          const version = LIBERTY_VERSION.replace(/\./g, '\\.');
+          const content = '<assemblyArtifact>\\s*<groupId>' + groupId + '</groupId>\\s*<artifactId>' + artifactId + '</artifactId>\\s*<version>' + version + '</version>\\s*<type>zip</type>\\s*</assemblyArtifact>';
+          const regex = new RegExp(content);
           check.content(regex);
         }
       }
@@ -107,7 +107,7 @@ function AssertLiberty() {
   }
 
   this.assertArtifactID = function(buildType, id) {
-    var check = getBuildCheck(true, buildType);
+    const check = getBuildCheck(true, buildType);
     if(buildType === 'gradle') {
       it('settings.gradle contains root project setting of ' + id, function() {
         assert.fileContent('settings.gradle', 'rootProject.name = \'' + id + '\'');
@@ -119,7 +119,7 @@ function AssertLiberty() {
   }
 
   this.assertProperties = function(buildType) {
-    var check = tests.test(buildType).assertProperty;
+    const check = tests.test(buildType).assertProperty;
     check('testServerHttpPort', '9080');
     check('testServerHttpsPort', '9443');
     if(buildType === 'gradle') {
@@ -136,14 +136,14 @@ function AssertLiberty() {
   }
 
   this.assertJNDI = function(exists, name, value) {
-    var check = getCheck(exists);
+    const check = getCheck(exists);
     it(check.desc + 'a server.xml JDNI entry for ' + name + " = " + value, function() {
       check.content(SERVER_XML, '<jndiEntry jndiName="' + name + '" value="' + value + '"/>');
     });
   }
 
   this.assertEnv = function(exists, name, value) {
-    var check = getCheck(exists);
+    const check = getCheck(exists);
     it(check.desc + 'a server.env entry for ' + name + " = " + value, function() {
       check.content(SERVER_ENV, name + '="' + value + '"');
     });
@@ -156,14 +156,14 @@ function AssertLiberty() {
   }
 
   this.assertFeature = function(exists, name) {
-    var check = getCheck(exists);
+    const check = getCheck(exists);
     it(SERVER_XML + ' ' + check.desc + 'a feature for ' + name, function() {
       check.content(SERVER_XML, "<feature>" + name + "</feature>");
     });
   }
 
   this.assertConfig = function(exists, name) {
-    var check = getCheck(exists);
+    const check = getCheck(exists);
     it(SERVER_XML + ' ' + check.desc + 'a tag for ' + name, function() {
       //look for the closing tag as that will not contain optional attiributes
       check.content(SERVER_XML, "</" + name + ">");
@@ -172,8 +172,8 @@ function AssertLiberty() {
 
   this.assertPlatforms = function(platforms, buildType, appName) {
     describe('checks build steps for deploying to IBM Cloud', function() {
-      var buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
-      var check = getCheck(platforms.includes('bluemix'));
+      const buildCheck = getBuildCheck(platforms.includes('bluemix'), buildType);
+      const check = getCheck(platforms.includes('bluemix'));
       if(buildType === 'gradle') {
         buildCheck.content("classpath 'org.cloudfoundry:cf-gradle-plugin:1.1.2'");
         buildCheck.content("cfContext = 'mybluemix.net'");
@@ -188,11 +188,11 @@ function AssertLiberty() {
         });
       }
       if(buildType === 'maven') {
-        var profileContent = '<profile>\\s*<id>bluemix</id>';
-        var profileRegex = new RegExp(profileContent);
+        const profileContent = '<profile>\\s*<id>bluemix</id>';
+        const profileRegex = new RegExp(profileContent);
         buildCheck.content(profileRegex);
-        var propertyContent = '<cf\.context>mybluemix\.net</cf\.context>';
-        var propertyRegex = new RegExp(propertyContent);
+        const propertyContent = '<cf.context>mybluemix.net</cf.context>';
+        const propertyRegex = new RegExp(propertyContent);
         buildCheck.content(propertyRegex);
         it(check.desc + 'README with maven deployment instructions', function() {
           check.content(README_MD, 'mvn install -Pbluemix -Dcf.org=[your email address] -Dcf.username=[your username] -Dcf.password=[your password]');
