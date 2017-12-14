@@ -45,3 +45,4 @@ projects/*
 
 #vscode
 .vscode
+.idea

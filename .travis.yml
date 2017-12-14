@@ -9,14 +9,12 @@ before_install:
   - gradle -v
   - nvm install 6.9.1
   - cd ./generator-liberty
-  - npm i -g makeshift && makeshift -r https://npm-registry.whitewater.ibm.com -s arf ibm wicked
+  - npm i -g makeshift && makeshift -r https://registry.npmjs.org
 install:
   - npm install
 script:
+  - npm run lint
   - npm test
   - npm run testint
-  - npm run coverage
-  - npm run coverageint
+  - npm run coveralls
   - ../deploy.sh
-env:
-  - secure : "C+vfpq09s2BKc9GYFRJpQ1qi3lt8aCASFPYJ4T08Ahd0uip9qDpxfxmL3Fo4hlIFCc8WrsWhtvlummX37CmX3FHuygldjLRUjTEkftiBmMgzHOPVsoaMzQzu4nUwc7qShE3wVYrTuWtnwr5KrhQVwSmQ3oYRrUcq54nyb8BimImiP0nRvOe+8E4AMyjTpdjeLxM+8vdBG0xEDUgYQqpyEzrrpKpXnc9Wb2+1NfpSB2R/GE/jj5YGLm0BHXBlwTdauLQiPjkM9VUa2zutaZZGVCIDG9XX9adZJ8G8/XpoTEiQMbep4sMNxjKwgYHezcpnBczULdm5YldomfaVtciQRCtxIZsc5r8iOfZLh6r60vXdGqLfTsEoxTxQ1M327lP4zHrhY5k0/OfuZ9gFs5Bq8ke2wff7ko1SjEmQtmMmkkcxKWiHi54pofc/PRPHt57wjPbDZcW+RjMPe+1QOmkijD+42moUJjWf/rC+rvE89I+Ux3jAQXfKSQHXkmzoJKuoT4fgdHYSnSEYUvStrNhNOPu7ig8eXC26CgAocJSY38Q/kczJLuuLEHvgxL+VWTQnLnBsztIKI/4Jp+4TAHS7oM2Oa5HmsityWg5oMYHKeMZBlukm8BN0f3Lpniyi/VLPj8AULDP2tyaxwClKz14YpBWQKov9RFTnZGr34xpo1vU="

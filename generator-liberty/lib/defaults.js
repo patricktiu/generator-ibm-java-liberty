@@ -16,7 +16,9 @@
 
 //module for storing default configuration values
 
-const defaultModule = require('@arf/java-common').defaults;
+'use strict';
+
+const defaultModule = require('ibm-java-codegen-common').defaults;
 
 const DEFAULTS = {
   technologies : {desc : 'Technologies to configure when using the prompt:liberty promptType', type : (value)=>{return Array.isArray(value) ? value : value.split(",");}, default : ['rest']},

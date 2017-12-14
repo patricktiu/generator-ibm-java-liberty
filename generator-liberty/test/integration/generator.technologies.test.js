@@ -19,18 +19,16 @@
  */
 'use strict';
 const path = require('path');
-const assert = require('yeoman-assert');
 const helpers = require('yeoman-test');
 const AssertTech = require('../../lib/assert.technologies');
 const MockPromptMgr = require('../mocks/mock.promptmgr');
-const common = require('@arf/java-common');
+const common = require('ibm-java-codegen-common');
 const command = common.test('command');
 
 const ARTIFACTID = 'artifact.0.1';
 const GROUPID = 'test.group';
 const VERSION = '1.0.0';
 const APPNAME = 'testApp';
-const FRAMEWORK = 'liberty';
 
 class Options extends AssertTech {
 
@@ -48,7 +46,7 @@ class Options extends AssertTech {
       artifactId : ARTIFACTID,
       version : VERSION
     }
-    var ctx = new common.context('test', this.conf, new MockPromptMgr());
+    const ctx = new common.context('test', this.conf, new MockPromptMgr());
     this.options = {
       context : ctx
     };
@@ -74,10 +72,10 @@ function execute(createType, assertFunc, technologiesToTest) {
 
   describe('java liberty generator : technologies integration test', function () {
 
-    for(var i = 0; i < technologiesToTest.length; i++) {
-      for(var j = 0; j < buildTypes.length; j++) {
+    for(let i = 0; i < technologiesToTest.length; i++) {
+      for(let j = 0; j < buildTypes.length; j++) {
         describe('Generates a ' + createType + ' project for ' + technologiesToTest[i] + ' (' + buildTypes[j] + ')', function () {
-          var options = new Options(createType, [technologiesToTest[i]], buildTypes[j]);
+          const options = new Options(createType, [technologiesToTest[i]], buildTypes[j]);
           before(options.before.bind(options));
           options['assert' + assertFunc](APPNAME);
           options['assert' + technologiesToTest[i]](buildTypes[j]);
@@ -97,22 +95,23 @@ function execute(createType, assertFunc, technologiesToTest) {
 describe('java liberty generator : technologies integration test', function () {
 
   describe('Generates a project for (no technologies)', function () {
-    var options = new Options('picnmix', [], 'maven');
+    const options = new Options('picnmix', [], 'maven');
     before(options.before.bind(options));
     options.assert(APPNAME);
   });
 
 });
 
-for(var i = 0; i < 5; i++) {
-  var totalTechnologies = Math.floor(Math.random() * technologies.length) + 1;  //how many technologies to pick - min of 1 up to number of available technologies
-  var techsToPickFrom = Array.from(technologies);                        //copy of technologies to pick from
-  var techs = new Array();                                           //chosen technologies
-  var description = new String();
+const totalTechnologies = Math.floor(Math.random() * technologies.length) + 1;  //how many technologies to pick - min of 1 up to number of available technologies
 
-  for(var j = 0; j < totalTechnologies; ) {
-    var index = Math.floor(Math.random() * technologies.length);
-    var tech = techsToPickFrom[index];
+for(let i = 0; i < 5; i++) {
+  const techsToPickFrom = Array.from(technologies);                        //copy of technologies to pick from
+  const techs = new Array();                                           //chosen technologies
+  let description = new String();
+
+  for(let j = 0; j < totalTechnologies; ) {
+    const index = Math.floor(Math.random() * technologies.length);
+    const tech = techsToPickFrom[index];
     if(tech) {
       techs.push(technologies[index]);
       techsToPickFrom[index] = undefined;
@@ -127,10 +126,10 @@ function executeMultiTechTest(description, techs) {
   describe('java liberty generator : ' + totalTechnologies + ' random technologies integration test', function () {
 
     describe('Generates a project for [' + description.trim() + ']', function () {
-      var options = new Options('picnmix', techs, 'maven');
+      const options = new Options('picnmix', techs, 'maven');
       before(options.before.bind(options));
       options.assertpicnmix(APPNAME);
-      for(var k = 0; k < techs.length; k++) {
+      for(let k = 0; k < techs.length; k++) {
         options['assert' + techs[k]]('maven');
       }
       if(techs.includes('msbuilder')) {

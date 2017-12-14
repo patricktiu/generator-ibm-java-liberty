@@ -16,26 +16,28 @@
 
 // test the defaults module
 
-var assert = require('assert');
-var Defaults = require('../../lib/defaults');
+'use strict';
 
-var defaults = new Defaults();
+const assert = require('assert');
+const Defaults = require('../../lib/defaults');
+
+const defaults = new Defaults();
 
 describe('Defaults module', function() {
 
   describe('Technologies default type is an array', function() {
-    var technologiesType = defaults.getObject('technologies').type;
+    const technologiesType = defaults.getObject('technologies').type;
     it('returns technologies as an array when passed an array', function() {
-      var array = ["foo", "bar"];
-      var newArray = technologiesType(array);
+      const array = ["foo", "bar"];
+      const newArray = technologiesType(array);
       assert(Array.isArray(newArray));
       assert.equal(newArray.length, 2);
       assert.equal(newArray[0], "foo");
       assert.equal(newArray[1], "bar");
     });
     it('returns technologies as an array when passed a comma separated string', function() {
-      var string = "foo,bar";
-      var array = technologiesType(string);
+      const string = "foo,bar";
+      const array = technologiesType(string);
       assert(Array.isArray(array));
       assert.equal(array.length, 2);
       assert.equal(array[0], "foo");

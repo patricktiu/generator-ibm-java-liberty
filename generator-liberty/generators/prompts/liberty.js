@@ -16,110 +16,111 @@
 
 'use strict'
 
-const PROMPT_ID = 'prompt:liberty';
+const PROMPT_ID = 'prompt:liberty'
 
-function Extension(config) {
-  this.id = PROMPT_ID;
-  this.config = config;
-  this.context = undefined;
+function Extension (config) {
+  this.id = PROMPT_ID
+  this.config = config
+  this.context = undefined
 }
 
-Extension.prototype.getChoice = function() {
+Extension.prototype.getChoice = function () {
   return {
-    name : 'Liberty : generate source for WebSphere Liberty.',
-    value : PROMPT_ID,
-    short : 'Technology selection'
-  };
-}
-
-Extension.prototype.show = function(answers) {
-  var result = false;
-  if (answers) {
-    if(answers.promptType) {
-      result = (answers.promptType === PROMPT_ID);
-    } else {
-      result = (this.config.promptType === PROMPT_ID);
-    }
-  }  else {
-    result = (this.config.promptType === PROMPT_ID);
+    name: 'Liberty : generate source for WebSphere Liberty.',
+    value: PROMPT_ID,
+    short: 'Technology selection'
   }
-  return result;
 }
 
-Extension.prototype.getQuestions = function() {
+Extension.prototype.show = function (answers) {
+  let result = false
+  if (answers) {
+    if (answers.promptType) {
+      result = (answers.promptType === PROMPT_ID)
+    } else {
+      result = (this.config.promptType === PROMPT_ID)
+    }
+  } else {
+    result = (this.config.promptType === PROMPT_ID)
+  }
+  return result
+}
+
+Extension.prototype.getQuestions = function () {
   return [{
-    when    : this.show.bind(this),
-    type    : 'list',
-    name    : 'createType',
-    message : 'What type of source do you want to generate?',
-    choices : [{
-      name : 'Pic\'n\'Mix : pick from a list of technologies',
-      value : 'picnmix',
-      short : 'Basic technology selection'
-    }]},{
-      when    : this.show.bind(this),
-      type    : 'list',
-      name    : 'buildType',
-      message : 'Select the build type for your project.\n',
-      choices : ['maven', 'gradle'],
-      default : 'maven'
-    }, {
-      when    : this.show.bind(this),
-      type    : 'input',
-      name    : 'appName',
-      message : 'Enter a name for your project',
-      default : 'LibertyProject'
-    }, {
-      when    : this.show.bind(this),
-      type    : 'input',
-      name    : 'groupId',
-      message : 'Enter a group id for your project',
-      default : 'liberty.projects'
-    }, {
-      when    : this.show.bind(this),
-      type    : 'input',
-      name    : 'artifactId',
-      message : 'Enter an artifact id for your project',
-      default : (answers) => {return answers.appName}
-    }, {
-    when : this.show.bind(this),
-    type : 'checkbox',
-    name : 'technologies',
-    message : 'Select the technologies for your project.',
-    choices : [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websocket'}, {name: 'web'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springbootweb'}, {name: 'msbuilder'}],
-    validate : function (answer) {
+    when: this.show.bind(this),
+    type: 'list',
+    name: 'createType',
+    message: 'What type of source do you want to generate?',
+    choices: [{
+      name: 'Pic\'n\'Mix : pick from a list of technologies',
+      value: 'picnmix',
+      short: 'Basic technology selection'
+    }]
+  }, {
+    when: this.show.bind(this),
+    type: 'list',
+    name: 'buildType',
+    message: 'Select the build type for your project.\n',
+    choices: ['maven', 'gradle'],
+    default: 'maven'
+  }, {
+    when: this.show.bind(this),
+    type: 'input',
+    name: 'appName',
+    message: 'Enter a name for your project',
+    default: 'LibertyProject'
+  }, {
+    when: this.show.bind(this),
+    type: 'input',
+    name: 'groupId',
+    message: 'Enter a group id for your project',
+    default: 'liberty.projects'
+  }, {
+    when: this.show.bind(this),
+    type: 'input',
+    name: 'artifactId',
+    message: 'Enter an artifact id for your project',
+    default: (answers) => {return answers.appName}
+  }, {
+    when: this.show.bind(this),
+    type: 'checkbox',
+    name: 'technologies',
+    message: 'Select the technologies for your project.',
+    choices: [{name: 'rest'}, {name: 'microprofile'}, {name: 'persistence'}, {name: 'websocket'}, {name: 'web'}, {name: 'watsonsdk'}, {name: 'swagger'}, {name: 'springbootweb'}, {name: 'msbuilder'}],
+    validate: function (answer) {
       if (answer.length < 1) {
-        return 'You must choose at least one technology.';
+        return 'You must choose at least one technology.'
       }
-      return true;
+      return true
     }
   }, {
-    when : this.show.bind(this),
-    type : 'confirm',
-    name : 'addbluemix',
-    message : 'Add IBM Cloud to your application?',
-    default : false
+    when: this.show.bind(this),
+    type: 'confirm',
+    name: 'addbluemix',
+    message: 'Add IBM Cloud to your application?',
+    default: false
   }, {
-    when : this.show.bind(this),
-    type : 'confirm',
-    name : 'libertybeta',
-    message : 'Install latest beta version of Liberty?',
-    default : (answers) => {return answers.libertybeta}
+    when: this.show.bind(this),
+    type: 'confirm',
+    name: 'libertybeta',
+    message: 'Install latest beta version of Liberty?',
+    default: (answers) => {return answers.libertybeta}
   }, {
-    when    : this.show.bind(this),
-    type    : 'confirm',
-    name    : 'javametrics',
-    message : 'Enable java metrics for your project',
-    default : (answers) => {return answers.javametrics}
-  }];
+    when: this.show.bind(this),
+    type: 'confirm',
+    name: 'javametrics',
+    message: 'Enable java metrics for your project',
+    default: (answers) => {return answers.javametrics}
+  }]
 }
 
-Extension.prototype.setContext = function(ctx) {
-  this.context = ctx;
+Extension.prototype.setContext = function (ctx) {
+  this.context = ctx
 }
 
-Extension.prototype.afterPrompt = function(answers, config) {
-  this.context.conf.overwrite(answers);
+Extension.prototype.afterPrompt = function (answers) {
+  this.context.conf.overwrite(answers)
 }
 
-module.exports = exports = Extension;
+module.exports = exports = Extension
