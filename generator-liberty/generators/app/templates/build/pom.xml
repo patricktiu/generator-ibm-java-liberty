@@ -170,6 +170,7 @@
                         <default.http.port>${testServerHttpPort}</default.http.port>
                         <default.https.port>${testServerHttpsPort}</default.https.port>
                     </bootstrapProperties>
+                    <looseApplication>false</looseApplication>
                 </configuration>
                 <executions>
                     <execution>
