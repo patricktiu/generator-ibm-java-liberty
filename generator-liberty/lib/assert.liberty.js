@@ -106,6 +106,13 @@ function AssertLiberty() {
     });
   }
 
+  this.assertNotLoose = function(buildType) {
+    if(buildType === 'maven') {
+      const check = getBuildCheck(true, buildType);
+      check.content(new RegExp('<looseApplication>false</looseApplication>'));
+    }
+  }
+
   this.assertArtifactID = function(buildType, id) {
     const check = getBuildCheck(true, buildType);
     if(buildType === 'gradle') {
