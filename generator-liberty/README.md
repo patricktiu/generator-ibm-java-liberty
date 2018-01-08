@@ -1,6 +1,6 @@
 # Yeoman generator for Liberty / Java EE code
 
-[![IBM Cloud powered][img-bluemix-powered]][url-bluemix]
+[![IBM Cloud powered][img-cloud-powered]][url-bluemix]
 [![Travis][img-travis]][url-travis]
 [![Coveralls][img-coveralls-master]][url-coveralls-master]
 [![Codacy][img-codacy]][url-codacy]
@@ -10,7 +10,7 @@
 [![License][img-license]][url-npm]
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
 
-[img-bluemix-powered]: https://img.shields.io/badge/bluemix-powered-blue.svg
+[img-cloud-powered]: https://img.shields.io/badge/ibmcloud-powered-blue.svg
 [url-bluemix]: http://bluemix.net
 
 [img-travis]: https://travis-ci.org/ibm-developer/generator-ibm-java-liberty.svg?branch=master
