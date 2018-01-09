@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.3.0"></a>
+# [7.3.0](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.2.0...v7.3.0) (2018-01-09)
+
+
+### Bug Fixes
+
+* **build:** Fix repo reference so Changelog is correct ([add85ea](https://github.com/ibm-developer/generator-ibm-java-liberty/commit/add85ea))
+
+
+### Features
+
+* **templates:** Update Liberty runtime to version 17.0.0.4 ([e72765b](https://github.com/ibm-developer/generator-ibm-java-liberty/commit/e72765b))
+
+
+
 <a name="7.2.0"></a>
 # [7.2.0](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.1.0...v7.2.0) (2018-01-08)
 
