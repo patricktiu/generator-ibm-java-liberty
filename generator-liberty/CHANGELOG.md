@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.2.0"></a>
+# [7.2.0](https://github.com/ibm-developer/generator-ibm-java-spring/compare/v7.1.0...v7.2.0) (2018-01-08)
+
+
+### Features
+
+* **templates:** Update version of Java Metrics to v1.1.0 ([2afd333](https://github.com/ibm-developer/generator-ibm-java-spring/commit/2afd333))
+
+
+
 <a name="7.1.0"></a>
 # [7.1.0](https://github.com/ibm-developer/generator-ibm-java-spring/compare/v7.0.0...v7.1.0) (2017-12-18)
 
