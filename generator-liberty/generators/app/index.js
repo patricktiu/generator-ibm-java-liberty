@@ -22,6 +22,7 @@ const Defaults = require('../../lib/defaults');
 const OpenApi = require('../../lib/openapi');
 
 const defaults = new Defaults();
+const logId = require('../../package.json').name;
 
 module.exports = class extends Generator {
 
@@ -30,14 +31,12 @@ module.exports = class extends Generator {
     //create command line options that will be passed by YaaS
     defaults.setOptions(this);
     extend(this, opts.context);   //inject the objects and functions directly into 'this' to make things easy
-    this.logger.writeToLog("Liberty Generator context", opts.context);
-    const ext = this.promptmgr.add(require('../prompts/liberty.js'));
-    ext.setContext(opts.context);
+    this.logger.writeToLog(`${logId}:constructor - context`, opts.context);
     this.patterns.push('picnmix');
     this.conf.addMissing(opts, defaults);
     this.openApiDir = [];
     this.conf.enableApiDiscovery = this.config.enableApiDiscovery || false;
-    this.logger.writeToLog("Liberty Generator conf (final)", this.conf);
+    this.logger.writeToLog(`${logId}:constructor -  conf (final)`, this.conf);
   }
 
   initializing() {
@@ -45,7 +44,7 @@ module.exports = class extends Generator {
 
 
   prompting() {
-    //do not add questions in here, use the promptmgr on the context if you need to get input from the user
+    //this generator does not prompt, questions can be set in the prompts directory for testing purposes
   }
 
   configuring() {

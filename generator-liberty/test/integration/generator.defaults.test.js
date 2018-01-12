@@ -22,27 +22,23 @@ const path = require('path')
 const helpers = require('yeoman-test')
 const AssertTech = require('../../lib/assert.technologies')
 const AssertLiberty = require('../../lib/assert.liberty')
-const MockPromptMgr = require('../mocks/mock.promptmgr')
 const common = require('ibm-java-codegen-common')
 
 class TechOptions extends AssertTech {
   constructor (buildType) {
     super()
     this.conf = {
-      headless: 'true',
-      debug: 'true',
       createType: 'picnmix',
       buildType: buildType,
       appName: 'testAppName'
     }
-    const ctx = new common.context('test', this.conf, new MockPromptMgr())
+    const ctx = new common.context('test', this.conf)
     this.options = {
       context: ctx
     }
     this.before = function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
-        .withPrompts({})
         .toPromise()
     }
   }
@@ -57,14 +53,13 @@ class LibertyOptions extends AssertLiberty {
       createType: 'picnmix',
       buildType: buildType
     }
-    const ctx = new common.context('test', this.conf, new MockPromptMgr())
+    const ctx = new common.context('test', this.conf)
     this.options = {
       context: ctx
     }
     this.before = function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
-        .withPrompts({})
         .toPromise()
     }
   }

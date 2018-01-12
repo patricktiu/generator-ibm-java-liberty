@@ -72,7 +72,7 @@ const generateFromDoc = function (doc) {
 const getGeneratedContent = function (id) {
   return new Promise((resolve, reject) => {
     const {sep} = require('path')
-    const tempDir = fs.mkdtempSync(os.tmpDir() + sep)
+    const tempDir = fs.mkdtempSync(os.tmpdir() + sep)
     request.get({
       headers: {'Accept': 'application/zip'},
       url: appAccEndpoint + '/workspace/files?workspace=' + id + '&serviceId=swagger&dir=server'
