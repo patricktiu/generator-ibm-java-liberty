@@ -21,7 +21,6 @@
 const path = require('path');
 const helpers = require('yeoman-test');
 const AssertTech = require('../../lib/assert.technologies');
-const MockPromptMgr = require('../mocks/mock.promptmgr');
 const common = require('ibm-java-codegen-common');
 const command = common.test('command');
 
@@ -35,25 +34,21 @@ class Options extends AssertTech {
   constructor(createType, technologies, buildType) {
     super();
     this.conf = {
-      headless :  "true",
-      debug : "true",
       buildType : buildType,
       createType : createType,
-      promptType : 'prompt:liberty',
       technologies : technologies,
       appName : APPNAME,
       groupId : GROUPID,
       artifactId : ARTIFACTID,
       version : VERSION
     }
-    const ctx = new common.context('test', this.conf, new MockPromptMgr());
+    const ctx = new common.context('test', this.conf);
     this.options = {
       context : ctx
     };
     this.before = function() {
       return helpers.run(path.join( __dirname, '../../generators/app'))
         .withOptions(this.options)
-        .withPrompts({})
         .toPromise();
     }
     this.assertCompiles = function() {

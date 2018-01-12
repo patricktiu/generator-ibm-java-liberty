@@ -21,7 +21,6 @@
 const path = require('path')
 const helpers = require('yeoman-test')
 const AssertLiberty = require('../../lib/assert.liberty')
-const MockPromptMgr = require('../mocks/mock.promptmgr')
 const common = require('ibm-java-codegen-common')
 
 const ARTIFACTID = 'artifact'
@@ -34,12 +33,9 @@ class Options extends AssertLiberty {
   constructor (buildType, createType, platforms, jndiEntries, envEntries, frameworkDependencies, javametrics, libertybeta) {
     super()
     this.conf = {
-      headless: 'true',
-      debug: 'true',
       buildType: buildType,
       createType: createType,
       javametrics: javametrics,
-      promptType: 'prompt:liberty',
       platforms: platforms,
       technologies: [],
       jndiEntries: jndiEntries,
@@ -51,14 +47,13 @@ class Options extends AssertLiberty {
       version: VERSION,
       libertybeta: libertybeta
     }
-    const ctx = new common.context('test', this.conf, new MockPromptMgr())
+    const ctx = new common.context('test', this.conf)
     this.options = {
       context: ctx
     }
     this.before = function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
-        .withPrompts({})
         .toPromise()
     }
   }

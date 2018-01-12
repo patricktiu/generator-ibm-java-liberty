@@ -21,7 +21,6 @@
 const path = require('path')
 const helpers = require('yeoman-test')
 const AssertOpenApi = require('../../lib/assert.openapi')
-const MockPromptMgr = require('../mocks/mock.promptmgr')
 const common = require('ibm-java-codegen-common')
 const openapidoc = require('../../resources/openapi/basicswagger.json')
 const openapidoc1 = require('../../resources/openapi/basicswagger1.json')
@@ -36,11 +35,8 @@ class Options extends AssertOpenApi {
   constructor (buildType, createType, bluemix) {
     super()
     this.conf = {
-      headless: 'true',
-      debug: 'true',
       buildType: buildType,
       createType: createType,
-      promptType: 'prompt:liberty',
       appName: APPNAME,
       groupId: GROUPID,
       artifactId: ARTIFACTID,
@@ -49,14 +45,13 @@ class Options extends AssertOpenApi {
     if (bluemix) {
       this.conf.bluemix = bluemix
     }
-    const ctx = new common.context('test', this.conf, new MockPromptMgr())
+    const ctx = new common.context('test', this.conf)
     this.options = {
       context: ctx
     }
     this.before = function () {
       return helpers.run(path.join(__dirname, '../../generators/app'))
         .withOptions(this.options)
-        .withPrompts({})
         .toPromise()
     }
   }
