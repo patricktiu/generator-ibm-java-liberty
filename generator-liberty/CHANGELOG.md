@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="7.4.0"></a>
+# [7.4.0](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.3.1...v7.4.0) (2018-01-12)
+
+
+### Features
+
+* **lib:** Expose prompts and defaults externally ([f52e20b](https://github.com/ibm-developer/generator-ibm-java-liberty/commit/f52e20b))
+
+
+
 <a name="7.3.1"></a>
 ## [7.3.1](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.3.0...v7.3.1) (2018-01-09)
 
