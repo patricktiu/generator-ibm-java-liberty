@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="8.0.0"></a>
+# [8.0.0](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.4.0...v8.0.0) (2018-01-12)
+
+
+### Features
+
+* **lib:** Remove prompting and update logging ([e963037](https://github.com/ibm-developer/generator-ibm-java-liberty/commit/e963037))
+
+
+### BREAKING CHANGES
+
+* **lib:** Remove prompting, remove options, alter logging api
+
+Signed-off-by: Katherine Stanley <katheris@uk.ibm.com>
+
+
+
 <a name="7.4.0"></a>
 # [7.4.0](https://github.com/ibm-developer/generator-ibm-java-liberty/compare/v7.3.1...v7.4.0) (2018-01-12)
 
