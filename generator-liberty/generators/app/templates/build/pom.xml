@@ -229,9 +229,17 @@
                             <groupId>net.wasdev.wlp.maven.plugins</groupId>
                             <artifactId>liberty-maven-plugin</artifactId>
                             <configuration>
+                                <installDirectory>/opt/ibm/wlp</installDirectory>
                                 <outputDirectory>/tmp/liberty</outputDirectory>
                             </configuration>
                             <executions>
+                                <execution>
+                                    <id>create-server</id>
+                                    <phase>prepare-package</phase>
+                                    <goals>
+                                       <goal>create-server</goal>
+                                    </goals>
+                                </execution>
                                 <execution>
                                     <id>install-feature</id>
                                     <phase>prepare-package</phase>
